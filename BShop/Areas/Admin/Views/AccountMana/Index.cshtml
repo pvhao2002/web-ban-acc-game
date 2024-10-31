@@ -1,0 +1,81 @@
+﻿@using ProjectWeb.Utils
+@model IEnumerable<ProjectWeb.Models.Entity.User>
+
+@{
+    ViewBag.Title = "Quản lý người dùng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var pageTitleModel = new List<string>() { "Người dùng", "Quản lý người dùng" };
+}
+
+@section css {
+    <link href="~/Content/admin/dataTables.bootstrap5.css" rel="stylesheet" type="text/css"/>
+    <link href="~/Content/admin/responsive.bootstrap5.css" rel="stylesheet" type="text/css"/>
+}
+
+<!-- start page title -->
+@Html.Partial("_PageTitle", pageTitleModel)
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-centered table-striped dt-responsive nowrap w-100" id="products-datatable">
+                        <thead>
+                        <tr>
+                            <th style="width: 100px;">STT</th>
+                            <th>Họ và tên</th>
+                            <th>Email đăng nhập</th>
+                            <th>Trạng thái tài khoản</th>
+                            <th style="width: 75px;">#</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var (value, index) in Model.Select((v, i) => (v, i)))
+                        {
+                            <tr>
+                                <td>
+                                    @(index + 1)
+                                </td>
+                                <td class="table-user">
+                                    <a href="javascript:void(0);" class="text-body fw-semibold">@value.FullName</a>
+                                </td>
+                                <td>
+                                    @value.Email
+                                </td>
+                                <td>
+                                    @{
+                                        var css = Constant.ACTIVE.Equals(value.Status) ? "success" : Constant.BLOCK.Equals(value.Status) ? "danger" : "warning";
+                                    }
+                                    <span class="badge badge-@css-lighten">@value.Status</span>
+                                </td>
+
+                                <td>
+                                    <a href="/Admin/AccountMana/Lock/@value.UserId" class="action-icon" title="Khóa">
+                                        <i class="uil-padlock text-danger"></i>
+                                    </a>
+                                    <a href="/Admin/AccountMana/Unlock/@value.UserId" class="action-icon" title="Mở khóa">
+                                        <i class="uil-lock-open-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+<!-- end row -->
+
+@section js {
+    @if (TempData[Constant.STATUS_RS] != null)
+    {
+        <script>
+            showToast('@Html.Raw(TempData[Constant.MESSAGE_RS])', '@TempData[Constant.STATUS_RS]');
+        </script>
+    }
+    <script src="~/Scripts/admin/account.index.js"></script>
+}

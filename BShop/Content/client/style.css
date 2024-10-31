@@ -1,0 +1,11 @@
+﻿.bi-search::before {
+    content: "\f502" !important;
+}
+
+.bi-list::before {
+    content: "\f456" !important;
+}
+
+.bi-x::before {
+    content: "\f62a" !important;
+}

@@ -1,0 +1,145 @@
+﻿@using ProjectWeb.Utils
+@{
+    var listPath = HttpContext.Current.Request.Url.AbsolutePath.Split('/').ToList();
+    listPath.Reverse();
+    var path = listPath.FirstOrDefault();
+    var path1 = string.IsNullOrEmpty(path) ? "Home" : path;
+    var listCssActiveNav = new Dictionary<string, string>();
+    var listTemp = new List<string>() { "Home", "Shop", "About", "More", "IntroduceMinecraft", 
+        "ReasonBuyGameOfficial", "Fanpage", "Cart", "History", "Profile" };
+    listTemp.ForEach(item => listCssActiveNav.Add(item, ""));
+    switch (path1)
+    {
+        case "Home":
+            listCssActiveNav["Home"] = "active";
+            break;
+        case "Shop":
+            listCssActiveNav["Shop"] = "active";
+            break;
+        case "About":
+            listCssActiveNav["About"] = "active";
+            break;
+        default:
+            listCssActiveNav["More"] = "active";
+            break;
+    }
+
+    listCssActiveNav[path1] = "active";
+    var userId = Session[Constant.USER_ID] ?? HttpContext.Current.Request.Cookies[Constant.USER_ID]?.Value;
+
+    if ("1".Equals(userId))  // neu la admin thi chuyen huong ve trang admin
+    {
+        Response.Redirect("/Admin");
+    }
+    
+    var isLogin = userId != null;
+}
+
+<header id="header" class="navbar navbar-expand-lg navbar-end navbar-light">
+    <div class="container">
+        <nav class="js-mega-menu navbar-nav-wrap">
+            <!-- Default Logo -->
+            <a class="navbar-brand" href="/" aria-label="HP Shop">
+                <h2 class="navbar-brand-logo text-primary">HP Shop</h2>
+            </a>
+            <!-- End Default Logo -->
+            <!-- Toggler -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-default">
+                    <i class="bi-list"></i>
+                </span>
+                <span class="navbar-toggler-toggled">
+                    <i class="bi-x"></i>
+                </span>
+            </button>
+            <!-- End Toggler -->
+            <!-- Collapse -->
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link @listCssActiveNav["Home"]" href="/">Trang chủ</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link @listCssActiveNav["Shop"]" href="/Product">Sản phẩm</a>
+                    </li>
+                    <!-- End Dropdown -->
+
+                    <li class="nav-item">
+                        <a class="nav-link @listCssActiveNav["About"]" href="/Home/About">Về chúng tôi</a>
+                    </li>
+
+                    <li class="hs-has-mega-menu nav-item" data-hs-mega-menu-item-options='{
+                      "desktop": {
+                        "position": "right",
+                        "maxWidth": "27rem"
+                      }
+                    }'>
+                        <a id="pagesMegaMenu" class="hs-mega-menu-invoker nav-link dropdown-toggle @listCssActiveNav["More"]" aria-current="page" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Xem thêm</a>
+
+                        <!-- Mega Menu -->
+                        <div class="hs-mega-menu dropdown-menu" aria-labelledby="pagesMegaMenu" style="min-width: 27rem;">
+                            <div class="navbar-dropdown-menu-inner">
+                                <div class="row">
+                                    <div class="col-sm mb-3 mb-sm-0">
+                                        <a class="dropdown-item @listCssActiveNav["IntroduceMinecraft"]" href="/Home/IntroduceMinecraft">Giới thiệu game Minecraft</a>
+                                        <a class="dropdown-item @listCssActiveNav["ReasonBuyGameOfficial"]" href="/Home/ReasonBuyGameOfficial">Lý do mua game bản quyền</a>
+                                        <a class="dropdown-item @listCssActiveNav["Fanpage"]" href="/Home/Fanpage">Fanpage chính thức </a>
+                                    </div>
+                                    <!-- End Col -->
+
+                                    <div class="col-sm">
+                                        <a class="dropdown-item @listCssActiveNav["Cart"]" href="/Cart">Giỏ hàng</a>
+                                        <a class="dropdown-item @listCssActiveNav["History"]" href="/History">Lịch sử đơn hàng</a>
+                                        <a class="dropdown-item @listCssActiveNav["Profile"]" href="/Profile">Trang cá nhân</a>
+                                    </div>
+                                    <!-- End Col -->
+                                </div>
+                                <!-- End Row -->
+                            </div>
+
+                            <!-- Mega Menu Banner -->
+                            <div class="navbar-dropdown-menu-shop-banner">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0">
+                                        <img class="navbar-dropdown-menu-shop-banner-img" src="~/Assets/img/client/minecraft-la-gi6.jpg" alt="Image Description">
+                                    </div>
+
+                                    <div class="flex-grow-1 ps-1">
+                                        <span class="h4 d-block text-primary">@path</span>
+                                        <p style="font-size: 12px;">Minecraft là tựa game đa nền tảng thuộc thể loại Sandbox.</p>
+                                        <a class="btn btn-sm btn-soft-primary btn-transition" href="/Home/IntroduceMinecraft">Xem thêm <i class="bi-chevron-right small"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Mega Menu Banner -->
+                        </div>
+                        <!-- End Mega Menu -->
+                    </li>
+
+                    <li class="nav-item">
+                        <!-- Search -->
+                        <button class="btn btn-ghost-secondary btn-sm btn-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarSearch" aria-controls="offcanvasNavbarSearch">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        <!-- End Search -->
+                        <!-- Shopping Cart -->
+                        <button class="btn btn-ghost-secondary btn-sm btn-icon" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarEmptyShoppingCart" aria-controls="offcanvasNavbarEmptyShoppingCart">
+                            <i class="bi-cart"></i>
+                        </button>
+                        <!-- End Shopping Cart -->
+                        @if (isLogin)
+                        {
+                            <a href="/Home/Logout" class="btn btn-primary btn-transition" type="button">Đăng xuất</a>
+                        }
+                        else
+                        {
+                            <button class="btn btn-primary btn-transition" type="button" data-bs-toggle="modal" data-bs-target="#signupModal" id="headerBtnOpenForm">Đăng nhập</button>
+                        }
+                    </li>
+                </ul>
+            </div>
+            <!-- End Collapse -->
+        </nav>
+    </div>
+</header>

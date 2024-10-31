@@ -1,0 +1,49 @@
+﻿@using ProjectWeb.Utils
+@model ProjectWeb.Models.Entity.Category
+
+@{
+    ViewBag.Title = "Thêm loại sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var pageTitleModel = new List<string>() { "Loại sản phẩm", "Thêm loại sản phẩm" };
+}
+
+<!-- start page title -->
+@Html.Partial("_PageTitle", pageTitleModel)
+<!-- end page title -->
+
+@using (Html.BeginForm("DoAdd", "CategoryMana", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <!-- end card-body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="mb-3">
+                                <label class="form-label">Tên</label>
+                                @Html.TextBoxFor(item => item.CategoryName, new { @class = "form-control", @placeholder = "Nhập tên loại" })
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả</label>
+                                @Html.TextAreaFor(item => item.Description, new { @class = "form-control", @placeholder = "Nhập mô tả của bạn vào đây..", rows = "5" })
+                            </div>
+                        </div> <!-- end col-->
+                    </div>
+                    <button class="btn btn-sm btn-primary">Thêm</button>
+                    <!-- end row -->
+                </div>
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+    </div>
+    <!-- end row-->
+}
+
+@section js {
+    @if (TempData[Constant.STATUS_RS] != null)
+    {
+        <script>
+            showToast('@Html.Raw(TempData[Constant.MESSAGE_RS])', '@TempData[Constant.STATUS_RS]');
+        </script>
+    }
+}

@@ -1,0 +1,29 @@
+﻿<div class="offcanvas offcanvas-top offcanvas-navbar-search bg-light" tabindex="-1" id="offcanvasNavbarSearch">
+    <div class="offcanvas-body">
+        <div class="container">
+            <div class="w-lg-75 mx-lg-auto">
+                <div class="d-flex justify-content-end mb-3">
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="mb-2">
+                    <!-- Form -->
+                    @using (Html.BeginForm("Index", "Product", FormMethod.Get))
+                    {
+                        <!-- Input Card -->
+                        <div class="input-card">
+                            <div class="input-card-form">
+                                <input type="text" class="form-control form-control-lg" 
+                                       name="search"
+                                       placeholder="Tìm kiếm sản phẩm" aria-label="Search Front">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg">Tìm kiếm</button>
+                        </div>
+                        <!-- End Input Card -->
+                    }
+                    <!-- End Form -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

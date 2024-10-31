@@ -1,0 +1,91 @@
+﻿@using ProjectWeb.Utils
+@model IEnumerable<ProjectWeb.Models.Entity.Order>
+
+@{
+    var mapStatus = new Dictionary<string, string>
+    {
+        { Constant.ORDER_STATUS_PENDING, "Đang chờ xác nhận" },
+        { Constant.ORDER_STATUS_CANCEL, "Đơn hàng bị hủy" },
+        { Constant.ORDER_STATUS_DELIVERED, "Đơn hàng hoàn thành" }
+    };
+}
+
+<!-- Select Group -->
+<div class="d-sm-flex align-items-sm-center mb-5">
+    <div class="mb-2 mb-sm-0 me-3">
+        <span>
+            <strong class="text-dark">@Model.Count() orders</strong>
+        </span>
+    </div>
+</div>
+<!-- End Select Group -->
+
+<ul class="list-unstyled mb-5">
+    @foreach (var item in Model)
+    {
+        <!-- Card -->
+        <li class="card card-bordered shadow-none mb-3">
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6 col-md mb-3 mb-md-0">
+                        <small class="card-subtitle mb-0">Tổng tiền</small>
+                        <small class="text-dark fw-semi-bold">@($"{item.TotalPrice:n0}")đ</small>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-6 col-md mb-3 mb-md-0">
+                        <small class="card-subtitle mb-0">SĐT: @item.PhoneNumber</small>
+                        <small class="text-dark fw-semi-bold">Tên: @item.FullName</small>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-6 col-md">
+                        <small class="card-subtitle mb-0">@("vnpay".Equals(item.PaymentMethod.ToLower()) ? "VNPAY" : "Thanh toán sau")</small>
+                        <small class="text-dark fw-semi-bold">@item.Email</small>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-6 col-md">
+                        <small class="card-subtitle mb-0">Ngày:</small>
+                        <small class="text-dark fw-semi-bold">@item.CreatedAt</small>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+                <hr>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5>@mapStatus[item.Status]</h5>
+
+                        <div class="row gx-2">
+                            <img class="img-fluid col" src=@Url.Content(item.OrderItems.First()?.product?.ProductImage ?? string.Empty)
+                                 style="height: 200px; object-fit: cover;"
+                                 alt="Image Description">
+                        </div>
+                        <!-- End Row -->
+                    </div>
+                    @if (item.Status.Equals(Constant.ORDER_STATUS_PENDING))
+                    {
+                        <div class="col-md-4">
+                            <div class="d-grid gap-4 align-items-end h-100">
+                                @if ("vnpay".Equals(item.PaymentMethod.ToLower()))
+                                {
+                                    <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="showAlert('Vui lòng liên hệ với chăm sóc khách hàng.', 'warning')">Hoàn tiền</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-white btn-sm" href="/Order/Cancel/@item.OrderId">
+                                        <i class="bi-arrow-counterclockwise small me-2"></i> Hủy đơn hàng
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </li>
+        <!-- End Card -->
+    }
+</ul>

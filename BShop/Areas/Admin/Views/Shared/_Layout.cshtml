@@ -1,0 +1,64 @@
+﻿@using ProjectWeb.Utils
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Admin - @ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/Assets/favicon.ico">
+    <link href="~/Content/admin/dataTables.bootstrap5.css" rel="stylesheet" type="text/css"/>
+    <link href="~/Content/admin/responsive.bootstrap5.css" rel="stylesheet" type="text/css"/>
+    <!-- App css -->
+    <link href="~/Content/admin/app.min.css" rel="stylesheet" type="text/css"/>
+    <link href="~/Content/admin/icons.min.css" rel="stylesheet" type="text/css" id="app-style"/>
+    @RenderSection("css", required: false)
+</head>
+
+<body class="loading" data-layout-color="light" data-leftbar-theme="dark" data-layout-mode="fluid" data-rightbar-onstart="true">
+<!-- Begin page -->
+<div class="wrapper">
+    <!-- ========== Left Sidebar Start ========== -->
+    @Html.Partial("Sidebar")
+    <!-- Left Sidebar End -->
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+        <div class="content">
+            <!-- Topbar Start -->
+            @Html.Partial("Topbar")
+            <!-- end Topbar -->
+            <!-- Start Content-->
+            @RenderBody()
+        </div> <!-- content -->
+        <!-- Footer Start -->
+        @Html.Partial("Footer")
+        <!-- end Footer -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+</div>
+<!-- END wrapper -->
+<!-- Right Sidebar -->
+@Html.Partial("RightBar")
+@Html.Partial("_Toast")
+
+<div class="rightbar-overlay"></div>
+<!-- /End-bar -->
+<!-- bundle -->
+<script src="~/Scripts/admin/vendor.min.js"></script>
+<script src="~/Scripts/admin/app.min.js"></script>
+<script src="~/Scripts/admin/demo.dashboard.js"></script>
+<script src="~/Scripts/admin/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/admin/dataTables.bootstrap5.js"></script>
+<script src="~/Scripts/admin/dataTables.responsive.min.js"></script>
+<script src="~/Scripts/admin/responsive.bootstrap5.min.js"></script>
+<script src="~/Scripts/toast.js"></script>
+<script src="~/Scripts/admin/dropzone.min.js"></script>
+<script src="~/Scripts/admin/fileupload.js"></script>
+@RenderSection("js", required: false)
+<!-- end demo js-->
+</body>
+</html>

@@ -1,0 +1,95 @@
+﻿using System;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using ProjectWeb.Models.Entity;
+using ProjectWeb.Utils;
+
+namespace ProjectWeb.Areas.Admin.Controllers
+{
+    [CustomAuthenticationFilter]
+    [CustomAuthorize(Constant.ROLE_ADMIN)]
+    public class CategoryManaController : Controller
+    {
+        private DBContext ctx { get; } = DbConnect.instance;
+
+        // GET
+        public async Task<ActionResult> Index()
+        {
+            var listCategory = await ctx.Categories.Where(item => Constant.ACTIVE.Equals(item.Status)).ToListAsync();
+            return View(listCategory);
+        }
+
+        public ActionResult Add()
+        {
+            return View(new Category());
+        }
+
+        public async Task<ActionResult> Edit(int id)
+        {
+            var category = await ctx.Categories.FirstOrDefaultAsync(item => item.CategoryId == id);
+            return View(category);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DoAdd(Category cate)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData[Constant.STATUS_RS] = Constant.ERROR;
+                TempData[Constant.MESSAGE_RS] = "Thêm danh mục thất bại";
+                return View("Add", cate);
+            }
+
+            cate.CreatedAt = DateTime.Now;
+            cate.UpdatedAt = DateTime.Now;
+            cate.Status = Constant.ACTIVE;
+            ctx.Categories.Add(cate);
+            await ctx.SaveChangesAsync();
+
+            TempData[Constant.STATUS_RS] = Constant.SUCCESS;
+            TempData[Constant.MESSAGE_RS] = "Thêm danh mục thành công";
+            return RedirectToAction("Add");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DoUpdate(Category cate)
+        {
+            var category = await ctx.Categories.FirstOrDefaultAsync(item => item.CategoryId == cate.CategoryId);
+            if (category == null)
+            {
+                TempData[Constant.STATUS_RS] = Constant.ERROR;
+                TempData[Constant.MESSAGE_RS] = "Danh mục không tồn tại";
+                return RedirectToAction("Index");
+            }
+
+            category.CategoryName = cate.CategoryName;
+            category.Description = cate.Description;
+            category.UpdatedAt = DateTime.Now;
+            await ctx.SaveChangesAsync();
+            TempData[Constant.STATUS_RS] = Constant.SUCCESS;
+            TempData[Constant.MESSAGE_RS] = "Cập nhật danh mục thành công";
+            return RedirectToAction("Index");
+        }
+
+
+        public async Task<ActionResult> Del(int id)
+        {
+            var category = await ctx.Categories.FirstOrDefaultAsync(item => item.CategoryId == id);
+            if(category == null)
+            {
+                TempData[Constant.STATUS_RS] = Constant.ERROR;
+                TempData[Constant.MESSAGE_RS] = "Danh mục không tồn tại";
+                return RedirectToAction("Index");
+            }
+            category.Status = Constant.INACTIVE;
+            category.UpdatedAt = DateTime.Now;
+            await ctx.SaveChangesAsync();
+            TempData[Constant.STATUS_RS] = Constant.SUCCESS;
+            TempData[Constant.MESSAGE_RS] = "Xóa danh mục thành công";
+            
+            return RedirectToAction("Index");
+        }
+    }
+}

@@ -1,0 +1,53 @@
+﻿@using ProjectWeb.Utils
+@model ProjectWeb.Models.Entity.slider
+
+@{
+    ViewBag.Title = "Thêm banner";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var pageTitleModel = new List<string>() { "Banner", "Thêm banner" };
+}
+
+<!-- start page title -->
+@Html.Partial("_PageTitle", pageTitleModel)
+<!-- end page title -->
+
+@using (Html.BeginForm("DoAdd", "SliderMana", FormMethod.Post, new
+        {
+            enctype = "multipart/form-data"
+        }))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <!-- end card-body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="mb-3">
+                                <label class="form-label">Ảnh</label>
+                                <input type="file" class="form-control" name="imgs" placeholder="Chọn ảnh" multiple="multiple" id="file-upload"/>
+                            </div>
+                        </div> <!-- end col-->
+                        <div class="col-xl-6"></div>
+                        <div class="col-xl-6" id="uploadPreviewTemplate"></div>
+                    </div>
+
+                    <button class="btn btn-sm btn-primary mt-2">Thêm</button>
+                    <!-- end row -->
+                </div>
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+    </div>
+    <!-- end row-->
+}
+ 
+
+@section js {
+    @if (TempData[Constant.STATUS_RS] != null)
+    {
+        <script>
+            showToast('@Html.Raw(TempData[Constant.MESSAGE_RS])', '@TempData[Constant.STATUS_RS]');
+        </script>
+    }
+    <script src="~/Scripts/admin/banner.add.js"></script>
+}

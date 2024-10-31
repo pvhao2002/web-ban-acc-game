@@ -1,0 +1,16 @@
+﻿@model IEnumerable<string>
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item">
+                        <a href="/Admin">Trang chủ</a>
+                    </li>
+                    <li class="breadcrumb-item active">@Model.First()</li>
+                </ol>
+            </div>
+            <h4 class="page-title">@Model.Last()</h4>
+        </div>
+    </div>
+</div>

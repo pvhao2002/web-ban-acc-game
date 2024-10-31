@@ -1,0 +1,147 @@
+﻿@model ProjectWeb.Models.Entity.Product
+@{
+    var listImage = new List<string>
+    {
+        Model.ProductImage,
+        "~/Assets/img/client/8390885_Minecraft-1.webp",
+        "~/Assets/img/client/seed-minecraft-thumb.jpg",
+    };
+}
+
+<!-- Hero -->
+<div class="container content-space-t-1 content-space-t-sm-2">
+    <div class="row">
+        <div class="col-md-7 mb-7 mb-md-0">
+            <div class="pe-md-4">
+                <div class="card-pinned">
+                    <!-- Swiper Main Slider -->
+                    <div class="js-swiper-shop-product swiper">
+                        <div class="swiper-wrapper">
+                            @foreach (var img in listImage)
+                            {
+                                <!-- Slide -->
+                                <div class="swiper-slide">
+                                    <div class="card card-bordered shadow-none">
+                                        <img class="card-img" src=@Url.Content(img) alt="Image Description" style="height: 500px;"/>
+                                    </div>
+                                </div>
+                                <!-- End Slide -->
+                            }
+                        </div>
+
+                        <!-- Arrows -->
+                        <div class="js-swiper-shop-product-button-next swiper-button-next"></div>
+                        <div class="js-swiper-shop-product-button-prev swiper-button-prev"></div>
+                    </div>
+                    <!-- End Swiper Main Slider -->
+
+                    <!-- Swiper Thumb Slider -->
+                    <div class="position-absolute bottom-0 end-0 start-0 zi-1 p-4">
+                        <div class="js-swiper-shop-product-thumb swiper" style="max-width: 15rem;">
+                            <div class="swiper-wrapper">
+                                @foreach (var img in listImage)
+                                {
+                                    <!-- Slide -->
+                                    <div class="swiper-slide">
+                                        <a class="avatar avatar-circle" href="javascript:void(0)">
+                                            <img class="avatar-img" src=@Url.Content(img) alt="Image Description">
+                                        </a>
+                                    </div>
+                                    <!-- End Slide -->
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Swiper Thumb Slider -->
+                </div>
+            </div>
+        </div>
+        <!-- End Col -->
+
+        <div class="col-md-5">
+            <!-- Rating -->
+            <a class="d-flex gap-1 mb-4" href="javascript:void(0)">
+                <img src="~/Assets/svg/illustrations/star.svg" alt="Review rating" width="16">
+                <img src="~/Assets/svg/illustrations/star.svg" alt="Review rating" width="16">
+                <img src="~/Assets/svg/illustrations/star.svg" alt="Review rating" width="16">
+                <img src="~/Assets/svg/illustrations/star.svg" alt="Review rating" width="16">
+                <img src="~/Assets/svg/illustrations/star.svg" alt="Review rating" width="16">
+            </a>
+            <!-- End Rating -->
+
+            <!-- Heading -->
+            <div class="mb-5">
+                <h1 class="h2">@Model.ProductName</h1>
+                <p class="text-primary">Thể loại: @Model.Category.CategoryName</p>
+            </div>
+            <!-- End Heading -->
+
+            <!-- Price -->
+            <div class="mb-5">
+                <span class="d-block mb-2">Tổng tiền:</span>
+                <div class="d-flex align-items-center">
+                    <h3 class="mb-0 text-success fw-bold fs-2">@($"{Model.Discount:n0}") đ</h3>
+                    <span class="ms-2 text-danger">
+                        <del>@($"{Model.Price:n0}")đ</del>
+                    </span>
+                </div>
+            </div>
+            <!-- End Price -->
+
+            <!-- Quantity -->
+            <div class="quantity-counter mb-3 d-none">
+                <div class="js-quantity-counter row align-items-center">
+                    <div class="col">
+                        <span class="d-block small">Số lượng</span>
+                        <input class="js-result form-control form-control-quantity-counter" type="text" value="1" id="detail-quantity">
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-auto">
+                        <a class="js-minus btn btn-outline-secondary btn-xs btn-icon rounded-circle" href="javascript:void(0)">
+                            <svg width="8" height="2" viewBox="0 0 8 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 1C0 0.723858 0.223858 0.5 0.5 0.5H7.5C7.77614 0.5 8 0.723858 8 1C8 1.27614 7.77614 1.5 7.5 1.5H0.5C0.223858 1.5 0 1.27614 0 1Z" fill="currentColor"/>
+                            </svg>
+                        </a>
+                        <a class="js-plus btn btn-outline-secondary btn-xs btn-icon rounded-circle" href="javascript:void(0)">
+                            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 0C4.27614 0 4.5 0.223858 4.5 0.5V3.5H7.5C7.77614 3.5 8 3.72386 8 4C8 4.27614 7.77614 4.5 7.5 4.5H4.5V7.5C4.5 7.77614 4.27614 8 4 8C3.72386 8 3.5 7.77614 3.5 7.5V4.5H0.5C0.223858 4.5 0 4.27614 0 4C0 3.72386 0.223858 3.5 0.5 3.5H3.5V0.5C3.5 0.223858 3.72386 0 4 0Z" fill="currentColor"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+            <!-- End Quantity -->
+
+            <!-- Accordion -->
+            @Html.Partial("Accordion")
+            <!-- End Accordion -->
+
+            <div class="d-grid mb-4">
+                <a href="/Cart/Add/@Model.ProductId" class="btn btn-primary btntransition">Thêm vào giỏ hàng</a>
+            </div>
+
+            <!-- Media -->
+            <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                    <div class="svg-icon svg-icon-sm text-primary">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M22.1671 18.1421C22.4827 18.4577 23.0222 18.2331 23.0206 17.7868L23.0039 13.1053V5.52632C23.0039 4.13107 21.8729 3 20.4776 3H8.68815C7.2929 3 6.16183 4.13107 6.16183 5.52632V9H13C14.6568 9 16 10.3431 16 12V15.6316H19.6565L22.1671 18.1421Z" fill="#035A4B"/>
+                            <path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M1.98508 18V13C1.98508 11.8954 2.88051 11 3.98508 11H11.9851C13.0896 11 13.9851 11.8954 13.9851 13V18C13.9851 19.1046 13.0896 20 11.9851 20H4.10081L2.85695 21.1905C2.53895 21.4949 2.01123 21.2695 2.01123 20.8293V18.3243C1.99402 18.2187 1.98508 18.1104 1.98508 18ZM5.99999 14.5C5.99999 14.2239 6.22385 14 6.49999 14H11.5C11.7761 14 12 14.2239 12 14.5C12 14.7761 11.7761 15 11.5 15H6.49999C6.22385 15 5.99999 14.7761 5.99999 14.5ZM9.49999 16C9.22385 16 8.99999 16.2239 8.99999 16.5C8.99999 16.7761 9.22385 17 9.49999 17H11.5C11.7761 17 12 16.7761 12 16.5C12 16.2239 11.7761 16 11.5 16H9.49999Z" fill="#035A4B"/>
+                        </svg>
+
+                    </div>
+                </div>
+                <div class="flex-grow-1 ms-2">
+                    <span class="small me-1">Hỗ trợ</span>
+                </div>
+            </div>
+            <!-- End Media -->
+        </div>
+        <!-- End Col -->
+    </div>
+    <!-- End Row -->
+</div>
+<!-- End Hero -->

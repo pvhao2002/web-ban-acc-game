@@ -1,0 +1,101 @@
+﻿@model ProjectWeb.Models.ViewModel.ProfileViewModel
+@{
+    var currentRoute = ViewContext.RouteData;
+    var currentController = currentRoute.Values["controller"].ToString();
+}
+
+<div class="navbar-expand-lg navbar-light">
+    <div id="sidebarNav" class="collapse navbar-collapse navbar-vertical">
+        <!-- Card -->
+        <div class="card flex-grow-1 mb-5">
+            <div class="card-body">
+                <!-- Avatar -->
+                <div class="d-none d-lg-block text-center mb-5">
+                    <h4 class="card-title mb-0">@Model.information.fullName</h4>
+                    <p class="card-text small">@Model.information.email</p>
+                </div>
+                <!-- End Avatar -->
+
+                <!-- Nav -->
+                <span class="text-cap">Tài khoản</span>
+
+                <!-- List -->
+                <ul class="nav nav-sm nav-tabs nav-vertical mb-4">
+                    <li class="nav-item">
+                        <a class="nav-link @("Profile".Equals(currentController) ? "active" :  "")" href="/Profile">
+                            <i class="bi-person-badge nav-icon"></i> Thông tin cá nhân
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="javascript:void(0)" onclick="showAlert('Chức năng đang phát triển', 'warning')">
+                            <i class="bi-shield-shaded nav-icon"></i> Bảo mật
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="javascript:void(0)" onclick="showAlert('Chức năng đang phát triển', 'warning')">
+                            <i class="bi-bell nav-icon"></i> Thông báo
+                            <span class="badge bg-soft-dark text-dark rounded-pill nav-link-badge">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="javascript:void(0)" onclick="showAlert('Chức năng đang phát triển', 'warning')">
+                            <i class="bi-sliders nav-icon"></i> Cài đặt
+                        </a>
+                    </li>
+                </ul>
+                <!-- End List -->
+
+                <span class="text-cap">Mua sắm</span>
+
+                <!-- List -->
+                <ul class="nav nav-sm nav-tabs nav-vertical mb-4">
+                    <li class="nav-item">
+                        <a class="nav-link @("History".Equals(currentController) ? "active" :  "")" href="/History">
+                            <i class="bi-basket nav-icon"></i> Lịch sử đơn hàng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="javascript:void(0)" onclick="showAlert('Chức năng đang phát triển', 'warning')">
+                            <i class="bi-heart nav-icon"></i> Yêu thích
+                            <span class="badge bg-soft-dark text-dark rounded-pill nav-link-badge">0</span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- End List -->
+
+                <span class="text-cap">Hóa đơn</span>
+
+                <!-- List -->
+                <ul class="nav nav-sm nav-tabs nav-vertical">
+                    <li class="nav-item">
+                        <a class="nav-link " href="javascript:void(0)" onclick="showAlert('Chức năng đang phát triển', 'warning')">
+                            <i class="bi-credit-card nav-icon"></i> Phương thức thanh toán
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="javascript:void(0)" onclick="showAlert('Chức năng đang phát triển', 'warning')">
+                            <i class="bi-geo-alt nav-icon"></i> Địa chỉ
+                        </a>
+                    </li>
+                </ul>
+                <!-- End List -->
+
+                <div class="d-lg-none">
+                    <div class="dropdown-divider"></div>
+
+                    <!-- List -->
+                    <ul class="nav nav-sm nav-tabs nav-vertical">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi-box-arrow-right nav-icon"></i> Log out
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- End List -->
+                </div>
+                <!-- End Nav -->
+            </div>
+        </div>
+        <!-- End Card -->
+    </div>
+</div>

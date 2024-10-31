@@ -1,0 +1,102 @@
+﻿@model ProjectWeb.Models.ViewModel.HomeViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@section css {
+    <link rel="stylesheet" href="~/Content/client/home.css">
+}
+
+<!-- Hero -->
+@Html.Partial("Hero")
+<!-- End Hero -->
+<!-- Icon Blocks -->
+@Html.Partial("IconBlock")
+<!-- End Icon Blocks -->
+
+<!-- Card Grid -->
+<div class="container content-space-2 content-space-lg-3">
+    <!-- Title -->
+    <div class="w-md-75 w-lg-50 text-center mx-md-auto mb-5 mb-md-9">
+        <h2>Sản phẩm nổi bật</h2>
+    </div>
+    <!-- End Title -->
+
+    <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 mb-3">
+        @foreach (var card in Model.ListProduct)
+        {
+            <div class="col mb-4">
+                <!-- Card -->
+                <div class="card card-bordered shadow-none text-center h-100">
+                    <div class="card-pinned">
+                        <img class="card-img-top" src=@Url.Content(card.ProductImage) style="height: 300px;" alt="Image Description">
+
+                        <div class="card-pinned-top-end">
+                            <button type="button" class="btn btn-outline-secondary btn-xs btn-icon rounded-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Save for later">
+                                <i class="bi-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="mb-1">
+                            <a class="link-sm link-secondary" href="/Product?cate=@card.CategoryId">@card.Category.CategoryName</a>
+                        </div>
+                        <a class="text-body" href="/Product/Detail/@card.ProductId">@card.ProductName</a>
+                        <p class="card-text text-dark fs-6">
+                            <del class="text-danger">Giá gốc: @($"{card.Price:N0} VND")</del>
+                        </p>
+                        <p class="card-text text-dark fs-4">Giá: @($"{card.Discount:N0} VND")</p>
+                    </div>
+
+                    <div class="card-footer pt-0">
+                        <a href="/Cart/Add/@card.ProductId" class="btn btn-outline-primary btn-sm rounded-pill">Thêm vào giỏ hàng</a>
+                    </div>
+                </div>
+                <!-- End Card -->
+            </div>
+            <!-- End Col -->
+        }
+    </div>
+    <!-- End Row -->
+    <div class="text-center">
+        <a class="btn btn-outline-primary btn-transition rounded-pill" href="/Product">Xem tất cả sản phẩm</a>
+    </div>
+</div>
+<!-- End Card Grid -->
+<!-- Subscribe -->
+@Html.Partial("Subscribe")
+<!-- End Subscribe -->
+<!-- Clients -->
+@Html.Partial("Client")
+<!-- End Clients -->
+
+@section js {
+    <script type="text/javascript">
+        (function (d, m) {
+            var defaultSettings = {
+                "defaultBotIds": ["hp-shop-tb4ua"],
+                "defaultAssignee": "hp-shop-tb4ua",
+                "skipRouting":true
+            };
+            var kommunicateSettings = {
+                "appId": "2d2bef768815aa040c906db71213fdb38",
+                "popupWidget": true,
+                "automaticChatOpenOnNavigation": true,
+                "voiceNote": true,
+                "onInit": function() {
+                    Kommunicate.customizeWidgetCss(".chat-popup-widget-text{color:red!important;} .mck-box-top {background-color: red!important;}");
+                    Kommunicate.updateSettings(defaultSettings);
+                }
+            };
+            var s = document.createElement("script");
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+            var h = document.getElementsByTagName("head")[0];
+            h.appendChild(s);
+            window.kommunicate = m;
+            m._globals = kommunicateSettings;
+        })(document, window.kommunicate || {});
+    </script>
+}

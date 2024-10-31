@@ -1,0 +1,101 @@
+﻿@using ProjectWeb.Utils
+@model ProjectWeb.Models.ViewModel.ProfileViewModel
+
+@{
+    ViewBag.Title = "Lịch sử mua hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("_Breadcrumb")
+
+<!-- Content Section -->
+<div class="container content-space-1 content-space-t-lg-0 content-space-b-lg-2 mt-lg-n10">
+    <div class="row">
+        <div class="col-lg-3">
+            <!-- Navbar -->
+            @Html.Partial("Sidebar")
+            <!-- End Navbar -->
+        </div>
+        <!-- End Col -->
+
+        <div class="col-lg-9">
+            <!-- Card -->
+            <div class="card">
+                <!-- Header -->
+                <div class="card-header border-bottom">
+                    <h4 class="card-header-title">Các đơn hàng đã mua</h4>
+                </div>
+                <!-- End Header -->
+
+                <!-- Body -->
+                <div class="card-body">
+                    <!-- Nav Scroller -->
+                    <div class="js-nav-scroller hs-nav-scroller-horizontal">
+                        <!-- Nav -->
+                        <ul class="nav nav-segment nav-fill mb-7" id="featuresTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" href="#accountOrdersOne" id="accountOrdersOne-tab"
+                                   data-bs-toggle="tab" data-bs-target="#accountOrdersOne" role="tab"
+                                   aria-controls="accountOrdersOne" aria-selected="true">
+                                    Hoàn thành
+                                </a>
+                            </li>
+
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" href="#accountOrdersTwo" id="accountOrdersTwo-tab"
+                                   data-bs-toggle="tab" data-bs-target="#accountOrdersTwo" role="tab" aria-controls="accountOrdersTwo"
+                                   aria-selected="false">
+                                    Đang chờ xác nhận
+                                </a>
+                            </li>
+
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" href="#accountOrdersThree" id="accountOrdersThree-tab"
+                                   data-bs-toggle="tab" data-bs-target="#accountOrdersThree" role="tab"
+                                   aria-controls="accountOrdersThree" aria-selected="false">
+                                    Đơn hủy
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- End Nav -->
+                    </div>
+                    <!-- End Nav Scroller -->
+
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="accountOrdersTabContent">
+                        <div class="tab-pane fade show active" id="accountOrdersOne" role="tabpanel" aria-labelledby="accountOrdersOne-tab">
+                            @Html.Partial(Model.listDoneOrder.Any() ? "ListOrder" : "EmptyOrder", Model.listDoneOrder)
+                        </div>
+
+                        <div class="tab-pane fade" id="accountOrdersTwo" role="tabpanel" aria-labelledby="accountOrdersTwo-tab">
+                            <!-- Empty State -->
+                            @Html.Partial(Model.listPendingOrder.Any() ? "ListOrder" : "EmptyOrder", Model.listPendingOrder)
+                            <!-- End Empty State -->
+                        </div>
+
+                        <div class="tab-pane fade" id="accountOrdersThree" role="tabpanel" aria-labelledby="accountOrdersThree-tab">
+                            <!-- Empty State -->
+                            @Html.Partial(Model.listCancelOrder.Any() ? "ListOrder" : "EmptyOrder", Model.listCancelOrder)
+                            <!-- End Empty State -->
+                        </div>
+                    </div>
+                    <!-- End Tab Content -->
+                </div>
+                <!-- End Body -->
+            </div>
+            <!-- End Card -->
+        </div>
+        <!-- End Col -->
+    </div>
+    <!-- End Row -->
+</div>
+<!-- End Content Section -->
+
+@section js {
+    @if (TempData[Constant.STATUS_RS] != null)
+    {
+        <script>
+            showAlert('@Html.Raw(TempData[Constant.MESSAGE_RS])', '@TempData[Constant.STATUS_RS]');
+        </script>
+    }
+}

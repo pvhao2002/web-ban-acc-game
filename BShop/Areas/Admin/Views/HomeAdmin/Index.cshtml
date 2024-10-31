@@ -1,0 +1,185 @@
+﻿@model ProjectWeb.Models.ViewModel.DashboardViewModel
+
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <form class="d-flex">
+                    <div class="input-group d-none">
+                        <input type="text" class="form-control form-control-light" id="dash-daterange">
+                        <span class="input-group-text bg-primary border-primary text-white">
+                            <i class="mdi mdi-calendar-range font-13"></i>
+                        </span>
+                    </div>
+                    <a href="/Admin" class="btn btn-primary ms-2">
+                        <i class="mdi mdi-autorenew"></i>
+                    </a>
+                </form>
+            </div>
+            <h4 class="page-title">Trang chủ</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-xl-5 col-lg-6">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card widget-flat">
+                    <div class="card-body">
+                        <div class="float-end">
+                            <i class="mdi mdi-account-multiple widget-icon"></i>
+                        </div>
+                        <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Khách hàng</h5>
+                        <h3 class="mt-3 mb-3">@Model.totalCustomer</h3>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col-->
+
+            <div class="col-sm-6">
+                <div class="card widget-flat">
+                    <div class="card-body">
+                        <div class="float-end">
+                            <i class="mdi mdi-database widget-icon"></i>
+                        </div>
+                        <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Sản phẩm</h5>
+                        <h3 class="mt-3 mb-3">@Model.totalProduct</h3>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col-->
+        </div> <!-- end row -->
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card widget-flat">
+                    <div class="card-body">
+                        <div class="float-end">
+                            <i class="mdi mdi-cart-plus widget-icon"></i>
+                        </div>
+                        <h5 class="text-muted fw-normal mt-0" title="Average Revenue">Doanh thu</h5>
+                        <h3 class="mt-3 mb-3">@($"{Model.totalRevenue:n0}")đ</h3>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col-->
+
+            <div class="col-sm-6">
+                <div class="card widget-flat">
+                    <div class="card-body">
+                        <div class="float-end">
+                            <i class="mdi mdi-pulse widget-icon"></i>
+                        </div>
+                        <h5 class="text-muted fw-normal mt-0" title="Growth">Doanh thu tháng trước</h5>
+                        <h3 class="mt-3 mb-3">@($"{Model.totalRevenuePrevWeek:N0}")đ</h3>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col-->
+
+            <div class="col-sm-6">
+                <div class="card widget-flat">
+                    <div class="card-body">
+                        <div class="float-end">
+                            <i class="mdi mdi-pulse widget-icon"></i>
+                        </div>
+                        <h5 class="text-muted fw-normal mt-0" title="Growth">Doanh thu tháng này</h5>
+                        <h3 class="mt-3 mb-3">@($"{Model.totalRevenueMonth:N0}")đ</h3>
+                        <p class="mb-0 text-muted">
+                            <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> @($"{Model.percentRevenueGrowth:N}")%</span>
+                            <span class="text-nowrap">So với tháng trước</span>
+                        </p>
+                    </div> <!-- end card-body-->
+                </div> <!-- end card-->
+            </div> <!-- end col-->
+        </div> <!-- end row -->
+
+    </div> <!-- end col -->
+
+    <div class="col-xl-7 col-lg-6">
+        <div class="card card-h-100">
+            <div class="card-body">
+                <div dir="ltr">
+                    <img src="~/Assets/img/client/minecraft-la-gi6.jpg" alt="hp" class="img-fluid w-100">
+                </div>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+
+    </div> <!-- end col -->
+</div>
+<!-- end row -->
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h4 class="header-title">Doanh thu</h4>
+                </div>
+
+                <div class="chart-content-bg">
+                    <div class="row text-center">
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0 mt-3">Tuần này</p>
+                            <h2 class="fw-normal mb-3">
+                                <small class="mdi mdi-checkbox-blank-circle text-primary align-middle me-1"></small>
+                                <span>
+                                    @($"{Model.totalRevenueWeek:N0}")đ
+                                </span>
+                            </h2>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0 mt-3">Tuần trước</p>
+                            <h2 class="fw-normal mb-3">
+                                <small class="mdi mdi-checkbox-blank-circle text-success align-middle me-1"></small>
+                                <span>
+                                    @($"{Model.totalRevenuePrevWeek:N0}")đ
+                                </span>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dash-item-overlay d-none d-md-block text-success fw-bold fst-italic gradient-x-overlay-sm-primary" dir="ltr">
+                    <h5>Ngày hôm nay: @($"{Model.totalRevenueDay:n0}")đ</h5>
+                </div>
+                <div dir="ltr">
+                    <div id="revenue-chart" class="apex-charts mt-3" data-colors="#727cf5,#0acf97"></div>
+                </div>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+
+    <div class="col-xl-4 col-lg-4 order-lg-1 d-none">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="header-title">Doanh thu trên loại sản phẩm</h4>
+                </div>
+                <div class="chart-widget-list">
+                    <p>
+                        <i class="mdi mdi-square text-primary"></i> Direct
+                        <span class="float-end">$300.56</span>
+                    </p>
+                    <p>
+                        <i class="mdi mdi-square text-danger"></i> Affilliate
+                        <span class="float-end">$135.18</span>
+                    </p>
+                    <p>
+                        <i class="mdi mdi-square text-success"></i> Sponsored
+                        <span class="float-end">$48.96</span>
+                    </p>
+                    <p class="mb-0">
+                        <i class="mdi mdi-square text-warning"></i> E-mail
+                        <span class="float-end">$154.02</span>
+                    </p>
+                </div>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+</div>
+<!-- end row -->

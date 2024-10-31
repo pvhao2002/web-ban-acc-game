@@ -1,0 +1,60 @@
+﻿@model ProjectWeb.Models.ViewModel.ProductDetailViewModel
+
+@{
+    ViewBag.Title = "HP Shop - Chi tiết sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Partial("Hero", Model.productModel)
+
+<!-- Content -->
+<div class="container ">
+    <div class="row">
+        <div class="col-md-12 mb-5 mb-md-0">
+            <div class="pe-lg-4">
+                <h3>Mô tả</h3>
+                @Html.Raw(Model.productModel.Description)
+            </div>
+        </div>
+        <!-- End Col -->
+    </div>
+    <!-- End Row -->
+</div>
+<!-- End Content -->
+
+<!-- Related Products -->
+@Html.Partial("RelatedProducts", Model.listProductRelated)
+<!-- End Related Products -->
+
+@section js {
+    <script>
+    (function() {
+        // INITIALIZATION OF SWIPER
+        // =======================================================
+        var swiper = new Swiper('.js-swiper-shop-product',{
+            effect: 'fade',
+            autoplay: true,
+            loop: true,
+            navigation: {
+                nextEl: '.js-swiper-shop-product-button-next',
+                prevEl: '.js-swiper-shop-product-button-prev',
+            },
+            thumbs: {
+                swiper: sliderThumbs
+            }
+        });
+
+        var sliderThumbs = new Swiper('.js-swiper-shop-product-thumb', {
+            slidesPerView: 3,
+            watchSlidesVisibility: true,
+            watchSlidesProgress: true,
+            history: false,
+        });
+
+
+        // INITIALIZATION OF  QUANTITY COUNTER
+        // =======================================================
+        new HSQuantityCounter('.js-quantity-counter')
+    })()
+</script>
+}

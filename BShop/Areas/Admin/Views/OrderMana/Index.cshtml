@@ -1,0 +1,121 @@
+﻿@using ProjectWeb.Utils
+@model IEnumerable<ProjectWeb.Models.Entity.Order>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var pageTitleModel = new List<string> { "Quản lý hóa đơn", "Hóa đơn" };
+}
+
+@section css {
+    <link href="~/Content/admin/dataTables.bootstrap5.css" rel="stylesheet" type="text/css"/>
+    <link href="~/Content/admin/responsive.bootstrap5.css" rel="stylesheet" type="text/css"/>
+}
+
+@Html.Partial("_PageTitle", pageTitleModel)
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-xl-8">
+                        <form class="row gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between">
+                            <div class="col-auto">
+                                <div class="d-flex align-items-center">
+                                    <label for="status-select" class="me-2">Trạng thái</label>
+                                    <select class="form-select" id="status-select">
+                                        <option selected>Chọn</option>
+                                        <option value="pending">Chờ xác nhận</option>
+                                        <option value="delivered">Hoàn thành</option>
+                                        <option value="cancel">Hủy</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="text-xl-end mt-xl-0 mt-2">
+                            <a href="/Admin/OrderMana/Index" class="btn btn-outline-primary btn-icon mb-2 me-2">
+                                <i class="mdi mdi-refresh-circle h-100 w-100"></i>
+                            </a>
+                        </div>
+                    </div><!-- end col-->
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-centered table-striped dt-responsive nowrap w-100" id="products-datatable">
+                        <thead>
+                        <tr>
+                            <th style="width: 100px;">STT</th>
+                            <th>Tên khách hàng</th>
+                            <th>SDT</th>
+                            <th>Email</th>
+                            <th>Phương thức thanh toán</th>
+                            <th>Tổng tiền</th>
+                            <th>Ngày mua</th>
+                            <th>Trạng thái</th>
+                            <th style="width: 75px;">#</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var (value, index) in Model.Select((v, i) => (v, i)))
+                        {
+                            <tr>
+                                <td>
+                                    @(index + 1)
+                                </td>
+                                <td class="table-user">
+                                    <a href="javascript:void(0);" class="text-body fw-semibold">@value.FullName</a>
+                                </td>
+                                <td>
+                                    @value.PhoneNumber
+                                </td>
+                                <td>
+                                    @value.Email
+                                </td>
+                                <td>
+                                    @("vnpay".Equals(value.PaymentMethod.ToLower()) ? "VNPAY" : "Thanh toán sau")
+                                </td>
+                                <td>
+                                    @($"{value.TotalPrice:n0}") đ
+                                </td>
+                                <td>@value.CreatedAt</td>
+                                <td>
+                                    @{
+                                        var css = Constant.ORDER_STATUS_DELIVERED.Equals(value.Status) ? "success" : Constant.ORDER_STATUS_CANCEL.Equals(value.Status) ? "danger" : "warning";
+                                    }
+                                    <span class="badge badge-@css-lighten">@value.Status</span>
+                                </td>
+
+                                <td>
+                                    @if (Constant.ORDER_STATUS_PENDING.Equals(value.Status))
+                                    {
+                                        <a href="/Admin/OrderMana/Accept/@value.OrderId" class="action-icon" title="Chấp nhập">
+                                            <i class="mdi mdi-check-bold text-success"></i>
+                                        </a>
+                                        <a href="/Admin/OrderMana/Reject/@value.OrderId" class="action-icon" title="Từ chối">
+                                            <i class="mdi mdi-alpha-x-circle-outline text-danger"></i>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col -->
+</div>
+<!-- end row -->
+
+
+@section js {
+    @if (TempData[Constant.STATUS_RS] != null)
+    {
+        <script>
+            showToast('@Html.Raw(TempData[Constant.MESSAGE_RS])', '@TempData[Constant.STATUS_RS]');
+        </script>
+    }
+    <script src="~/Scripts/admin/order.js"></script>
+}

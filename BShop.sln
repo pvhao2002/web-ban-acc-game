@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BShop", "BShop\BShop.csproj", "{2784DCAD-509C-482A-AB65-9D4A1CFCDAC2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2784DCAD-509C-482A-AB65-9D4A1CFCDAC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2784DCAD-509C-482A-AB65-9D4A1CFCDAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2784DCAD-509C-482A-AB65-9D4A1CFCDAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2784DCAD-509C-482A-AB65-9D4A1CFCDAC2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {09D2FF24-62D2-41C2-A7B8-180DECA371DA}
+	EndGlobalSection
+EndGlobal

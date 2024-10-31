@@ -1,0 +1,223 @@
+﻿@model ProjectWeb.Models.Entity.Cart
+
+@{
+    ViewBag.Title = "Thanh toán";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Content -->
+<div class="container content-space-1 content-space-lg-2">
+    <div class="row">
+        <div class="col-lg-8 mb-7 mb-lg-0">
+            <h4 class="mb-3">Thông tin cá nhân</h4>
+
+            <!-- Form -->
+            <form class="js-validate-2 needs-validation" novalidate action="/Checkout/Continue" method="post">
+                <div class="row g-3">
+                    <div class="col-sm-12">
+                        <label for="fullNameShopCheckout" class="form-label">Họ và tên</label>
+                        <input type="text" class="form-control form-control-lg" name="fullName" id="fullNameShopCheckout" placeholder="" value="" required>
+                        <div class="invalid-feedback">
+                            Họ tên không được để trống.
+                        </div>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-12">
+                        <label for="emailShopCheckout" class="form-label">Email</label>
+                        <input type="email" class="form-control form-control-lg" name="email" id="emailShopCheckout" placeholder="you@example.com" required>
+                        <div class="invalid-feedback">
+                            Vui lòng nhập email hợp lệ.
+                        </div>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-12">
+                        <label for="phoneShopCheckout" class="form-label">Phone</label>
+                        <input type="text" class="js-input-mask form-control" name="phone" id="phoneShopCheckout" placeholder="+84 033 4444444" required
+                               data-hs-mask-options='{
+                                  "mask": "+84 000 0000000"
+                                }'>
+                        <div class="invalid-feedback">
+                            Vui lòng nhập số điện thoại.
+                        </div>
+                    </div>
+                    <!-- End Col -->
+                </div>
+
+                <hr class="my-4">
+                <h4 class="mb-3">Thanh toán</h4>
+
+                <div class="my-3">
+                    <!-- Check -->
+                    <div class="form-check">
+                        <input id="creditShopCheckout" name="paymentMethod" type="radio" class="form-check-input" value="VNPAY" checked required>
+                        <label class="form-check-label" for="creditShopCheckout">VN PAY</label>
+                    </div>
+                    <!-- End Check -->
+
+                    <!-- Check -->
+                    <div class="form-check">
+                        <input id="debitShopCheckout" name="paymentMethod" type="radio" class="form-check-input" value="LATER" required>
+                        <label class="form-check-label" for="debitShopCheckout">Nhân viên sẽ gọi điện để hướng dẫn thanh toán</label>
+                    </div>
+                    <!-- End Check -->
+                </div>
+                <hr class="my-4">
+
+                <div class="row align-items-center">
+                    <div class="col-sm-6 order-sm-1 mb-3 mb-sm-0">
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Đặt hàng</button>
+                        </div>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-sm text-center text-sm-start">
+                        <a class="link" href="/Cart">
+                            <i class="bi-chevron-left small ms-1"></i> Trở về giỏ hàng
+                        </a>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </form>
+            <!-- End Form -->
+        </div>
+        <!-- End Col -->
+
+        <div class="col-lg-4">
+            <div class="ps-lg-4">
+                <!-- Card -->
+                <div class="card card-sm shadow-sm mb-4">
+                    <div class="card-body">
+                        <div class="border-bottom pb-4 mb-4">
+                            <h3 class="card-header-title">Đơn hàng</h3>
+                        </div>
+
+                        <form>
+                            <div class="border-bottom pb-4 mb-3 d-none">
+                                <input type="text" class="form-control" name="name" placeholder="Enter promo code" aria-label="Enter promo code">
+                            </div>
+
+                            <div class="border-bottom pb-4 mb-4">
+                                <div class="d-grid gap-3">
+                                    <dl class="row">
+                                        <dt class="col-sm-6">Số lượng (@Model.CartItems.Count)</dt>
+                                        <dd class="col-sm-6 text-sm-end mb-0">@($"{Model.TotalPrice:n0}") đ</dd>
+                                    </dl>
+                                    <!-- End Row -->
+
+                                    <dl class="row">
+                                        <dt class="col-sm-6">Giao tài khoản</dt>
+                                        <dd class="col-sm-6 text-sm-end mb-0">5p</dd>
+                                    </dl>
+                                    <!-- End Row -->
+                                </div>
+                            </div>
+
+                            <div class="border-bottom pb-4 mb-4 d-none">
+                                <div class="d-grid gap-3">
+                                    <!-- Check -->
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="deliveryRadioName" id="deliveryRadio1" checked>
+                                        <label class="form-check-label text-dark" for="deliveryRadio1">
+                                            Free - Standard delivery
+                                            <span class="d-block text-muted small">Shipment may take 5-6 business days</span>
+                                        </label>
+                                    </div>
+                                    <!-- End Check -->
+
+                                    <!-- Check -->
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="deliveryRadioName" id="deliveryRadio2">
+                                        <label class="form-check-label text-dark" for="deliveryRadio2">
+                                            $7.99 - Express delivery
+                                            <span class="d-block text-muted small">Shipment may take 2-3 business days</span>
+                                        </label>
+                                    </div>
+                                    <!-- End Check -->
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-3 mb-4">
+                                <dl class="row">
+                                    <dt class="col-sm-6">Thuế</dt>
+                                    <dd class="col-sm-6 text-sm-end mb-0">0 đ</dd>
+                                </dl>
+                                <!-- End Row -->
+
+                                <dl class="row">
+                                    <dt class="col-sm-6">Tổng cộng</dt>
+                                    <dd class="col-sm-6 text-sm-end mb-0">@($"{Model.TotalPrice:n0}") đ</dd>
+                                </dl>
+                                <!-- End Row -->
+                            </div>
+                        </form>
+                    </div>
+                    <!-- End Card -->
+                </div>
+
+                <!-- Media -->
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="svg-icon svg-icon-sm text-primary">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M22.1671 18.1421C22.4827 18.4577 23.0222 18.2331 23.0206 17.7868L23.0039 13.1053V5.52632C23.0039 4.13107 21.8729 3 20.4776 3H8.68815C7.2929 3 6.16183 4.13107 6.16183 5.52632V9H13C14.6568 9 16 10.3431 16 12V15.6316H19.6565L22.1671 18.1421Z" fill="#035A4B"/>
+                                <path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd" d="M1.98508 18V13C1.98508 11.8954 2.88051 11 3.98508 11H11.9851C13.0896 11 13.9851 11.8954 13.9851 13V18C13.9851 19.1046 13.0896 20 11.9851 20H4.10081L2.85695 21.1905C2.53895 21.4949 2.01123 21.2695 2.01123 20.8293V18.3243C1.99402 18.2187 1.98508 18.1104 1.98508 18ZM5.99999 14.5C5.99999 14.2239 6.22385 14 6.49999 14H11.5C11.7761 14 12 14.2239 12 14.5C12 14.7761 11.7761 15 11.5 15H6.49999C6.22385 15 5.99999 14.7761 5.99999 14.5ZM9.49999 16C9.22385 16 8.99999 16.2239 8.99999 16.5C8.99999 16.7761 9.22385 17 9.49999 17H11.5C11.7761 17 12 16.7761 12 16.5C12 16.2239 11.7761 16 11.5 16H9.49999Z" fill="#035A4B"/>
+                            </svg>
+
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-2">
+                        <span class="small me-1">Hỗ trợ</span>
+                        <a class="link small d-none" href="#">Chat now</a>
+                    </div>
+                </div>
+                <!-- End Media -->
+            </div>
+        </div>
+        <!-- End Col -->
+    </div>
+    <!-- End Row -->
+</div>
+<!-- End Content -->
+
+@section js {
+    <script>
+    (function() {
+        HSCore.components.HSMask.init('.js-input-mask')
+        // INITIALIZATION OF BOOTSTRAP VALIDATION
+        // =======================================================
+        HSBsValidation.init('.js-validate-2', {
+            onSubmit: data => {
+                data.event.preventDefault();
+                data.event.stopPropagation();
+                // get form data
+                const dataForm = new FormData(data.form);
+                // get form action
+                const action = data.form.getAttribute('action');
+                // send form data
+                fetch(action, {
+                    method: 'POST',
+                    body: dataForm
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    showAlert('Something went wrong', 'danger');
+                    throw new Error('Something went wrong');
+                }).then(rs => {
+                    if (rs.success) {
+                        window.location.href = rs.isVnpay ? rs.url : '/Cart';
+                    } else {
+                        showAlert('Something went wrong', 'danger');
+                    }
+                }).catch(error => {
+                    console.error(error);
+                });
+            }
+        })
+    })();
+</script>
+}

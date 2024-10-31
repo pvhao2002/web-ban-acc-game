@@ -1,0 +1,108 @@
+﻿@using ProjectWeb.Utils
+@model ProjectWeb.Models.ViewModel.ProductViewModel
+
+@{
+    ViewBag.Title = "Thêm sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var pageTitleModel = new List<string>() { "Quản lý sản phẩm", "Thêm sản phẩm" };
+}
+
+@section css {
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/super-build/ckeditor.js"></script>
+}
+
+@Html.Partial("_PageTitle", pageTitleModel)
+
+@using (Html.BeginForm("DoAdd", "ProductMana", FormMethod.Post, new
+        {
+            enctype = "multipart/form-data"
+        }))
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <!-- end card-body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="mb-3">
+                                <label class="form-label">Tên</label>
+                                @Html.TextBoxFor(item => item.product.ProductName, new
+                                {
+                                    @class = "form-control", @placeholder = "Nhập tên loại"
+                                })
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Mô tả</label>
+                                @Html.TextAreaFor(item => item.product.Description, new
+                                {
+                                    @class = "form-control",
+                                    @placeholder = "Nhập mô tả của bạn vào đây..",
+                                    rows = "10",
+                                    id = "editor"
+                                })
+                            </div>
+                        </div> <!-- end col-->
+
+                        <div class="col-xl-6">
+                            <div class="mb-3">
+                                <label class="form-label">Giá</label>
+                                @Html.TextBoxFor(item => item.product.Price, "{0:N0}", new
+                                {
+                                    @class = "form-control",
+                                    @placeholder = "Nhập giá",
+                                    type = "number",
+                                    min = "0",
+                                    max = "9999999999"
+                                })
+                                <span class="font-13 text-muted">e.g 123.000.000</span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Giá khi giảm</label>
+                                @Html.TextBoxFor(item => item.product.Discount, "{0:N0}", new
+                                {
+                                    @class = "form-control",
+                                    @placeholder = "Nhập giá khi giảm",
+                                    type = "number",
+                                    min = "0",
+                                    max = "9999999999"
+                                })
+                                <span class="font-13 text-muted">e.g 123.000.000</span>
+                            </div>
+                        </div> <!-- end col-->
+
+                        <div class="col-xl-6">
+                            <div class="mb-3">
+                                <label class="form-label">Ảnh</label>
+                                <input type="file" class="form-control" name="img" placeholder="Chọn ảnh" id="file-upload"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Loại sản phẩm</label>
+                                @Html.DropDownListFor(item => item.product.CategoryId,
+                                    Model.categorySelectList,
+                                    "-- Chọn loại sản phẩm --",
+                                    new { @class = "form-select" })
+                            </div>
+                        </div> <!-- end col-->
+
+                        <div class="col-xl-6" id="uploadPreviewTemplate"></div>
+                    </div>
+                    <button class="btn btn-sm btn-primary mt-2">Thêm</button>
+                    <!-- end row -->
+                </div>
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+    </div>
+    <!-- end row-->
+}
+
+@section js {
+    @if (TempData[Constant.STATUS_RS] != null)
+    {
+        <script>
+            showToast('@Html.Raw(TempData[Constant.MESSAGE_RS])', '@TempData[Constant.STATUS_RS]');
+        </script>
+    }
+    <script src="~/Scripts/admin/product.add.js"></script>
+    <script src="~/Scripts/admin/CKEditor.js"></script>
+}

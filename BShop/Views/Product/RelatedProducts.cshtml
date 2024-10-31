@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ProjectWeb.Models.Entity.Product>
+
+<!-- Card Grid -->
+<div class="container content-space-2 content-space-lg-3">
+    <!-- Title -->
+    <div class="w-md-75 w-lg-50 text-center mx-md-auto mb-5 mb-md-9">
+        <h2>Dành cho bạn</h2>
+    </div>
+    <!-- End Title -->
+
+    <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+        @foreach (var card in Model)
+        {
+            <div class="col mb-4">
+                <!-- Card -->
+                <div class="card card-bordered shadow-none text-center h-100">
+                    <div class="card-pinned">
+                        <img class="card-img-top" src=@Url.Content(card.ProductImage) style="height: 300px;" alt="Image Description">
+
+                        <div class="card-pinned-top-end">
+                            <button type="button" class="btn btn-outline-secondary btn-xs btn-icon rounded-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Save for later">
+                                <i class="bi-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="mb-1">
+                            <a class="link-sm link-secondary" href="/Product?cate=@card.CategoryId">@card.Category.CategoryName</a>
+                        </div>
+                        <a class="text-body" href="/Product/Detail/@card.ProductId">@card.ProductName</a>
+                        <p class="card-text text-dark fs-6">
+                            <del class="text-danger">Giá gốc: @($"{card.Price:N0} VND")</del>
+                        </p>
+                        <p class="card-text text-dark fs-4">Giá: @($"{card.Discount:N0} VND")</p>
+                    </div>
+
+                    <div class="card-footer pt-0">
+                        <a href="/Cart/Add/@card.ProductId" class="btn btn-outline-primary btn-sm rounded-pill">Thêm vào giỏ hàng</a>
+                    </div>
+                </div>
+                <!-- End Card -->
+            </div>
+            <!-- End Col -->
+        }
+    </div>
+    <!-- End Row -->
+</div>
+<!-- End Card Grid -->

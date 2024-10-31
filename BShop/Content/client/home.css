@@ -1,0 +1,8 @@
+﻿.hero-bg {
+    background-image: url(./PvhNuXTVmggjHlzhi2FP5a8qaEcOW0bwoUQFxEx0.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+}
