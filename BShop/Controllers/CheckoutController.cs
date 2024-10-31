@@ -7,7 +7,7 @@ using BShop.Utils;
 
 namespace BShop.Controllers
 {
-    [CustomAuthorize(Constant.ROLE_USER)]
+    [CustomAuthorize(Constant.RoleUser)]
     public class CheckoutController : Controller
     {
         public async Task<ActionResult> Index()
@@ -17,8 +17,8 @@ namespace BShop.Controllers
                 .Include(item => item.CartItems)
                 .FirstOrDefaultAsync(item => item.UserId == userId);
             if (cart != null && cart.CartItems.Count != 0) return View(cart);
-            TempData[Constant.STATUS_RS] = Constant.ERROR;
-            TempData[Constant.MESSAGE_RS] = "Giỏ hàng trống!";
+            TempData[Constant.StatusRs] = Constant.Error;
+            TempData[Constant.MessageRs] = "Giỏ hàng trống!";
             return RedirectToAction("Index", "Cart");
         }
 
@@ -41,7 +41,7 @@ namespace BShop.Controllers
                 FullName = fullName,
                 TotalPrice = cart.TotalPrice,
                 TotalQuantity = cart.TotalQuantity,
-                Status = Constant.ORDER_STATUS_PENDING,
+                Status = Constant.OrderStatusPending,
                 PaymentMethod = paymentMethod,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,

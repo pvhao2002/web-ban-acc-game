@@ -7,10 +7,10 @@ namespace BShop.Utils
     {
         public static int GetUserId(HttpRequestBase request, HttpSessionStateBase session)
         {
-            var userIdStr = Convert.ToString(session[Constant.USER_ID]);
+            var userIdStr = Convert.ToString(session[Constant.UserId]);
             if (string.IsNullOrEmpty(userIdStr))
             {
-                userIdStr = request.Cookies[Constant.USER_ID]?.Value;
+                userIdStr = request.Cookies[Constant.UserId]?.Value;
             }
 
             return string.IsNullOrEmpty(userIdStr) ? -1 : Convert.ToInt32(userIdStr);

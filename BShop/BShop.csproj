@@ -161,7 +161,6 @@
     <Compile Include="Utils\VnPayLibrary.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="about.txt" />
     <Content Include="Areas\Admin\Views\AccountMana\Index.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryMana\Add.cshtml" />
     <Content Include="Areas\Admin\Views\CategoryMana\Edit.cshtml" />
@@ -170,19 +169,19 @@
     <Content Include="Areas\Admin\Views\ProductMana\Add.cshtml" />
     <Content Include="Areas\Admin\Views\ProductMana\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\ProductMana\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\ProductMana\SaleAccount.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\ShowAlert.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_PageTitle.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Toast.cshtml" />
     <Content Include="Assets\favicon.ico" />
-    <Content Include="Assets\img\admin\Admin-designstyle-jungle-m.png" />
     <Content Include="Assets\img\admin\admin-sticker.jpg" />
     <Content Include="Assets\img\admin\avatar_default.png" />
-    <Content Include="Assets\img\client\1.png" />
-    <Content Include="Assets\img\client\8390885_Minecraft-1.webp" />
-    <Content Include="Assets\img\client\minecraft-la-gi6.jpg" />
-    <Content Include="Assets\img\client\PvhNuXTVmggjHlzhi2FP5a8qaEcOW0bwoUQFxEx0.jpg" />
-    <Content Include="Assets\img\client\seed-minecraft-thumb.jpg" />
+    <Content Include="Assets\img\client\banner_right_1.webp" />
+    <Content Include="Assets\img\client\banner_right_2.webp" />
+    <Content Include="Assets\img\client\frame-277-87f03056-240d-40dc-99a4-a34abeac1b27.webp" />
+    <Content Include="Assets\img\client\img_3banner_1.webp" />
+    <Content Include="Assets\img\client\img_3banner_3.webp" />
+    <Content Include="Assets\img\client\slider_2.webp" />
+    <Content Include="Assets\img\client\vn-11134207-7r98o-lwqpfr4lksm1d0-1719994911742.webp" />
     <Content Include="Assets\svg\brands\amazon-dark.svg" />
     <Content Include="Assets\svg\brands\mudbox-icon.svg" />
     <Content Include="Assets\svg\brands\paypal-icon.svg" />
@@ -296,6 +295,7 @@
     <Content Include="Scripts\admin\banner.add.js" />
     <Content Include="Scripts\admin\banner.index.js" />
     <Content Include="Scripts\admin\banner.update.js" />
+    <Content Include="Scripts\admin\category.js" />
     <Content Include="Scripts\admin\CKEditor.js" />
     <Content Include="Scripts\admin\dataTables.bootstrap5.js" />
     <Content Include="Scripts\admin\dataTables.responsive.min.js" />
@@ -311,26 +311,15 @@
     <Content Include="Scripts\admin\product.update.js" />
     <Content Include="Scripts\admin\responsive.bootstrap5.min.js" />
     <Content Include="Scripts\admin\vendor.min.js" />
-    <Content Include="Scripts\bootstrap.bundle.js" />
-    <Content Include="Scripts\bootstrap.bundle.min.js" />
-    <Content Include="Scripts\bootstrap.esm.js" />
-    <Content Include="Scripts\bootstrap.esm.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\client\forget-password.js" />
+    <Content Include="Scripts\client\login.js" />
     <Content Include="Scripts\client\main.js" />
     <Content Include="Scripts\client\product.js" />
+    <Content Include="Scripts\client\register.js" />
     <Content Include="Scripts\client\theme.min.js" />
+    <Content Include="Scripts\client\toast.js" />
     <Content Include="Scripts\client\vendor.min.js" />
-    <None Include="Scripts\jquery-3.7.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.7.1.js" />
-    <Content Include="Scripts\jquery-3.7.1.min.js" />
-    <Content Include="Scripts\jquery-3.7.1.slim.js" />
-    <Content Include="Scripts\jquery-3.7.1.slim.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\nouislider.min.js" />
     <Content Include="Scripts\toast.js" />
     <Content Include="Views\Cart\Index.cshtml" />
@@ -369,17 +358,6 @@
     <Folder Include="Content\upload\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\img\client\img1.webp" />
-    <Content Include="Assets\img\client\BBQAx1N_d.webp" />
-    <Content Include="Assets\img\client\About\1.webp" />
-    <Content Include="Assets\img\client\About\2.webp" />
-    <Content Include="Assets\img\client\About\3.webp" />
-    <Content Include="Assets\img\client\About\4.webp" />
-    <Content Include="Assets\img\client\About\5.webp" />
-    <Content Include="Assets\img\client\About\6.webp" />
-    <Content Include="Assets\img\client\About\7.webp" />
-    <Content Include="Assets\img\client\About\8.webp" />
-    <Content Include="Assets\img\client\About\9.webp" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\Sidebar.cshtml" />
@@ -428,14 +406,6 @@
     <Content Include="Views\Shared\_Search.cshtml" />
     <Content Include="Views\Shared\_Toast.cshtml" />
     <Content Include="Scripts\admin\product.index.js" />
-    <Content Include="Scripts\bootstrap.min.js.map" />
-    <Content Include="Scripts\bootstrap.js.map" />
-    <Content Include="Scripts\bootstrap.esm.min.js.map" />
-    <Content Include="Scripts\bootstrap.esm.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.js.map" />
-    <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.7.1.min.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -7,7 +7,7 @@ using BShop.Utils;
 
 namespace BShop.Controllers
 {
-    [CustomAuthorize(Constant.ROLE_USER)]
+    [CustomAuthorize(Constant.RoleUser)]
     public class OrderController : Controller
     {
         public async Task<ActionResult> Cancel(int id)
@@ -15,19 +15,19 @@ namespace BShop.Controllers
             var order = await DBContext.Instance.Orders.FirstOrDefaultAsync(item => item.OrderId == id);
             if (order == null)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Đơn hàng không tồn tại!";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Đơn hàng không tồn tại!";
                 return RedirectToAction("Index", "History");
             }
 
-            if (order.Status != Constant.ORDER_STATUS_PENDING)
+            if (order.Status != Constant.OrderStatusPending)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Đơn hàng không thể hủy!";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Đơn hàng không thể hủy!";
                 return RedirectToAction("Index", "History");
             }
 
-            order.Status = Constant.ORDER_STATUS_CANCEL;
+            order.Status = Constant.OrderStatusCancel;
             order.UpdatedAt = DateTime.Now;
             await DBContext.Instance.SaveChangesAsync();
             return RedirectToAction("Index", "History");

@@ -10,8 +10,6 @@ namespace BShop.Controllers
 {
     public class LoginController : Controller
     {
-        private const int MaxAge = 30; // 30 days
-
         // GET: Login
         [HttpPost]
         public async Task<JsonResult> Index(string email, string password)
@@ -25,22 +23,12 @@ namespace BShop.Controllers
                 return Json(failed);
             }
 
-            // Set session
-            Session[Constant.USER_ID] = user.UserId;
-            Session[Constant.EMAIL] = user.Email;
-
             // Set cookie
-            var cookieUserId = new HttpCookie(Constant.USER_ID, user.UserId.ToString())
+            var cookieUserId = new HttpCookie(Constant.UserId, user.UserId.ToString())
             {
-                Expires = DateTime.Now.AddDays(MaxAge)
+                Expires = DateTime.Now.AddDays(30)
             };
             Response.Cookies.Add(cookieUserId);
-
-            var cookieEmail = new HttpCookie(Constant.EMAIL, user.Email)
-            {
-                Expires = DateTime.Now.AddDays(MaxAge)
-            };
-            Response.Cookies.Add(cookieEmail);
 
             var result = new { success = true, message = "Đăng nhập thành công!", page = "Login", role = user.Role };
             return Json(result);

@@ -9,17 +9,17 @@ using BShop.Utils;
 
 namespace BShop.Areas.Admin.Controllers
 {
-    [CustomAuthorize(Constant.ROLE_ADMIN)]
+    [CustomAuthorize(Constant.RoleAdmin)]
     public class HomeAdminController : Controller
     {
         // GET: Admin/HomeAdmin
         public async Task<ActionResult> Index()
         {
-            var totalUser = await DBContext.Instance.Users.CountAsync(item => Constant.ROLE_USER.Equals(item.Role)
-                                                               && Constant.ACTIVE.Equals(item.Status));
-            var totalProduct = await DBContext.Instance.Products.CountAsync(item => Constant.ACTIVE.Equals(item.Status));
+            var totalUser = await DBContext.Instance.Users.CountAsync(item => Constant.RoleUser.Equals(item.Role)
+                                                               && Constant.Active.Equals(item.Status));
+            var totalProduct = await DBContext.Instance.Products.CountAsync(item => Constant.Active.Equals(item.Status));
             var totalRevenue = await DBContext.Instance.Orders
-                .Where(item => Constant.ORDER_STATUS_DELIVERED.Equals(item.Status))
+                .Where(item => Constant.OrderStatusDelivered.Equals(item.Status))
                 .SumAsync(item => item.TotalPrice);
 
             var currentDate = DateTime.Now;
@@ -47,7 +47,7 @@ namespace BShop.Areas.Admin.Controllers
 
             // Tổng doanh thu cho tháng hiện tại
             var totalRevenueCurrentMonth = await DBContext.Instance.Orders
-                .Where(item => Constant.ORDER_STATUS_DELIVERED.Equals(item.Status)
+                .Where(item => Constant.OrderStatusDelivered.Equals(item.Status)
                                && item.CreatedAt.HasValue
                                && item.CreatedAt.Value >= firstDayOfCurrentMonth
                                && item.CreatedAt.Value <= currentDate)
@@ -55,7 +55,7 @@ namespace BShop.Areas.Admin.Controllers
 
             // Tổng doanh thu cho tháng trước
             var totalRevenueLastMonth = await DBContext.Instance.Orders
-                .Where(item => Constant.ORDER_STATUS_DELIVERED.Equals(item.Status)
+                .Where(item => Constant.OrderStatusDelivered.Equals(item.Status)
                                && item.CreatedAt.HasValue
                                && item.CreatedAt.Value >= firstDayOfLastMonth
                                && item.CreatedAt.Value <= lastDayOfLastMonth)
@@ -63,7 +63,7 @@ namespace BShop.Areas.Admin.Controllers
 
             // Tổng doanh thu cho tuần hiện tại
             var totalRevenueCurrentWeek = await DBContext.Instance.Orders
-                .Where(item => Constant.ORDER_STATUS_DELIVERED.Equals(item.Status)
+                .Where(item => Constant.OrderStatusDelivered.Equals(item.Status)
                                && item.CreatedAt.HasValue
                                && item.CreatedAt.Value >= startOfCurrentWeek
                                && item.CreatedAt.Value <= currentDate)
@@ -71,7 +71,7 @@ namespace BShop.Areas.Admin.Controllers
 
             // Tổng doanh thu cho tuần trước (Thứ Hai tuần trước đến Chủ nhật tuần trước)
             var totalRevenueLastWeek = await DBContext.Instance.Orders
-                .Where(item => Constant.ORDER_STATUS_DELIVERED.Equals(item.Status)
+                .Where(item => Constant.OrderStatusDelivered.Equals(item.Status)
                                && item.CreatedAt.HasValue
                                && item.CreatedAt.Value >= startOfLastWeek
                                && item.CreatedAt.Value <= endOfLastWeek)
@@ -79,7 +79,7 @@ namespace BShop.Areas.Admin.Controllers
 
             // Tổng doanh thu cho ngày hiện tại
             var totalRevenueCurrentDay = await DBContext.Instance.Orders
-                .Where(item => Constant.ORDER_STATUS_DELIVERED.Equals(item.Status)
+                .Where(item => Constant.OrderStatusDelivered.Equals(item.Status)
                                && DbFunctions.TruncateTime(item.CreatedAt) == DbFunctions.TruncateTime(currentDate))
                 .SumAsync(item => item.TotalPrice);
 

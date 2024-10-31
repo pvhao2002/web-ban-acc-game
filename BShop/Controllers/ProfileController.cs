@@ -8,7 +8,7 @@ using BShop.Utils;
 
 namespace BShop.Controllers
 {
-    [CustomAuthorize(Constant.ROLE_USER)]
+    [CustomAuthorize(Constant.RoleUser)]
     public class ProfileController : Controller
     {
         public async Task<ActionResult> Index()

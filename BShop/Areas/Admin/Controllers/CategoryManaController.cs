@@ -8,13 +8,13 @@ using BShop.Utils;
 
 namespace BShop.Areas.Admin.Controllers
 {
-    [CustomAuthorize(Constant.ROLE_ADMIN)]
+    [CustomAuthorize(Constant.RoleAdmin)]
     public class CategoryManaController : Controller
     {
         public async Task<ActionResult> Index()
         {
             var listCategory = await DBContext.Instance.Categories
-                .Where(item => Constant.ACTIVE.Equals(item.Status))
+                .Where(item => Constant.Active.Equals(item.Status))
                 .ToListAsync();
             return View(listCategory);
         }
@@ -36,19 +36,19 @@ namespace BShop.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Thêm danh mục thất bại";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Thêm danh mục thất bại";
                 return View("Add", cate);
             }
 
             cate.CreatedAt = DateTime.Now;
             cate.UpdatedAt = DateTime.Now;
-            cate.Status = Constant.ACTIVE;
+            cate.Status = Constant.Active;
             DBContext.Instance.Categories.Add(cate);
             await DBContext.Instance.SaveChangesAsync();
 
-            TempData[Constant.STATUS_RS] = Constant.SUCCESS;
-            TempData[Constant.MESSAGE_RS] = "Thêm danh mục thành công";
+            TempData[Constant.StatusRs] = Constant.Success;
+            TempData[Constant.MessageRs] = "Thêm danh mục thành công";
             return RedirectToAction("Add");
         }
 
@@ -59,16 +59,16 @@ namespace BShop.Areas.Admin.Controllers
                 .FirstOrDefaultAsync(item => item.CategoryId == cate.CategoryId);
             if (category == null)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Danh mục không tồn tại";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Danh mục không tồn tại";
                 return RedirectToAction("Index");
             }
 
             category.CategoryName = cate.CategoryName;
             category.UpdatedAt = DateTime.Now;
             await DBContext.Instance.SaveChangesAsync();
-            TempData[Constant.STATUS_RS] = Constant.SUCCESS;
-            TempData[Constant.MESSAGE_RS] = "Cập nhật danh mục thành công";
+            TempData[Constant.StatusRs] = Constant.Success;
+            TempData[Constant.MessageRs] = "Cập nhật danh mục thành công";
             return RedirectToAction("Index");
         }
 
@@ -79,15 +79,15 @@ namespace BShop.Areas.Admin.Controllers
                 .FirstOrDefaultAsync(item => item.CategoryId == id);
             if(category == null)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Danh mục không tồn tại";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Danh mục không tồn tại";
                 return RedirectToAction("Index");
             }
-            category.Status = Constant.INACTIVE;
+            category.Status = Constant.Inactive;
             category.UpdatedAt = DateTime.Now;
             await DBContext.Instance.SaveChangesAsync();
-            TempData[Constant.STATUS_RS] = Constant.SUCCESS;
-            TempData[Constant.MESSAGE_RS] = "Xóa danh mục thành công";
+            TempData[Constant.StatusRs] = Constant.Success;
+            TempData[Constant.MessageRs] = "Xóa danh mục thành công";
             
             return RedirectToAction("Index");
         }

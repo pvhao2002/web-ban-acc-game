@@ -17,23 +17,25 @@ namespace BShop.Controllers
                 var failed = new { success = false, message = "Email hoặc mật khẩu không được để trống!" };
                 return Json(failed);
             }
+
             var emailLower = email.ToLower();
 
-            var user = await DBContext.Instance.Users.FirstOrDefaultAsync(item => emailLower.Equals(item.Email.ToLower()));
-            
+            var user = await DBContext.Instance.Users
+                .FirstOrDefaultAsync(item => emailLower.Equals(item.Email.ToLower()));
+
             if (user != null)
             {
                 var failed = new { success = false, message = "Email đã tồn tại!" };
                 return Json(failed);
             }
-            
+
             var newUser = new User
             {
                 Email = email,
                 Password = password,
                 FullName = fullname,
-                Role = Constant.ROLE_USER,
-                Status = Constant.ACTIVE,
+                Role = Constant.RoleUser,
+                Status = Constant.Active,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             };

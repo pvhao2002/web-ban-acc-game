@@ -82,13 +82,13 @@
                                 <td>@value.CreatedAt</td>
                                 <td>
                                     @{
-                                        var css = Constant.ORDER_STATUS_DELIVERED.Equals(value.Status) ? "success" : Constant.ORDER_STATUS_CANCEL.Equals(value.Status) ? "danger" : "warning";
+                                        var css = Constant.OrderStatusDelivered.Equals(value.Status) ? "success" : Constant.OrderStatusCancel.Equals(value.Status) ? "danger" : "warning";
                                     }
                                     <span class="badge badge-@css-lighten">@value.Status</span>
                                 </td>
 
                                 <td>
-                                    @if (Constant.ORDER_STATUS_PENDING.Equals(value.Status))
+                                    @if (Constant.OrderStatusPending.Equals(value.Status))
                                     {
                                         <a href="/Admin/OrderMana/Accept/@value.OrderId" class="action-icon" title="Chấp nhập">
                                             <i class="mdi mdi-check-bold text-success"></i>
@@ -111,10 +111,10 @@
 
 
 @section js {
-    @if (TempData[Constant.STATUS_RS] != null)
+    @if (TempData[Constant.StatusRs] != null)
     {
         <script>
-            showToast('@Html.Raw(TempData[Constant.MESSAGE_RS])', '@TempData[Constant.STATUS_RS]');
+            showToast('@Html.Raw(TempData[Constant.MessageRs])', '@TempData[Constant.StatusRs]');
         </script>
     }
     <script src="~/Scripts/admin/order.js"></script>

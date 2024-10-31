@@ -11,7 +11,7 @@ using BShop.Utils;
 
 namespace BShop.Areas.Admin.Controllers
 {
-    [CustomAuthorize(Constant.ROLE_ADMIN)]
+    [CustomAuthorize(Constant.RoleAdmin)]
     public class ProductManaController : Controller
     {
         // GET
@@ -19,16 +19,7 @@ namespace BShop.Areas.Admin.Controllers
         {
             var list = await DBContext.Instance.Products
                 .Include(item => item.Category)
-                .Where(item => Constant.ACTIVE.Equals(item.Category.Status) && Constant.ACTIVE.Equals(item.Status))
-                .ToListAsync();
-            return View(list);
-        }
-
-        public async Task<ActionResult> SaleAccount()
-        {
-            var list = await DBContext.Instance.Products
-                .Include(item => item.Category)
-                .Where(item => Constant.INACTIVE.Equals(item.Status))
+                .Where(item => Constant.Active.Equals(item.Category.Status) && Constant.Active.Equals(item.Status))
                 .ToListAsync();
             return View(list);
         }
@@ -36,7 +27,7 @@ namespace BShop.Areas.Admin.Controllers
         public async Task<ActionResult> Add()
         {
             var listCategory = await DBContext.Instance.Categories
-                .Where(item => Constant.ACTIVE.Equals(item.Status))
+                .Where(item => Constant.Active.Equals(item.Status))
                 .ToListAsync();
             var categorySelectList = listCategory.Select(item => new SelectListItem()
             {
@@ -57,7 +48,7 @@ namespace BShop.Areas.Admin.Controllers
             var product = await DBContext.Instance.Products
                 .FirstOrDefaultAsync(item => item.ProductId == id);
             var listCategory = await DBContext.Instance.Categories
-                .Where(item => Constant.ACTIVE.Equals(item.Status))
+                .Where(item => Constant.Active.Equals(item.Status))
                 .ToListAsync();
             var categorySelectList = listCategory.Select(item => new SelectListItem()
             {
@@ -78,34 +69,35 @@ namespace BShop.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Thêm sản phẩm thất bại";
-                return RedirectToAction("Index");
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Thêm sản phẩm thất bại";
+                return View("Add", productViewModel);
             }
 
             var product = productViewModel.product;
 
             if (decimal.Compare(product.Price ?? decimal.Zero, product.Discount ?? decimal.Zero) < 0)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Giá khuyến mãi phải nhỏ hơn giá gốc";
-                return RedirectToAction("Add");
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Giá khuyến mãi phải nhỏ hơn giá gốc";
+                return View("Add", productViewModel);
             }
 
-            if (img.ContentLength > 0)
+            if (img != null && img.ContentLength > 0)
             {
                 using (var memoryStream = new MemoryStream())
                 {
                     await img.InputStream.CopyToAsync(memoryStream);
                     var imageBytes = memoryStream.ToArray();
                     var base64String = Convert.ToBase64String(imageBytes);
-                    product.ProductImage = base64String;
+                    var mimeType = img.ContentType;
+                    product.ProductImage = $"data:{mimeType};base64,{base64String}";
                 }
             }
 
             product.CreatedAt = DateTime.Now;
             product.UpdatedAt = DateTime.Now;
-            product.Status = Constant.ACTIVE;
+            product.Status = Constant.Active;
 
             DBContext.Instance.Products.Add(product);
             using (var trans = DBContext.Instance.Database.BeginTransaction())
@@ -114,14 +106,15 @@ namespace BShop.Areas.Admin.Controllers
                 {
                     await DBContext.Instance.SaveChangesAsync();
                     trans.Commit();
-                    TempData[Constant.STATUS_RS] = Constant.SUCCESS;
-                    TempData[Constant.MESSAGE_RS] = "Thêm sản phẩm thành công";
+                    TempData[Constant.StatusRs] = Constant.Success;
+                    TempData[Constant.MessageRs] = "Thêm sản phẩm thành công";
                 }
                 catch (Exception e)
                 {
                     trans.Rollback();
-                    TempData[Constant.STATUS_RS] = Constant.ERROR;
-                    TempData[Constant.MESSAGE_RS] = "Thêm sản phẩm thất bại: " + e.Message;
+                    TempData[Constant.StatusRs] = Constant.Error;
+                    TempData[Constant.MessageRs] = "Thêm sản phẩm thất bại: " + e.Message;
+                    Console.WriteLine(e);
                 }
             }
 
@@ -136,33 +129,34 @@ namespace BShop.Areas.Admin.Controllers
 
             if (product == null)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Sản phẩm không tồn tại";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Sản phẩm không tồn tại";
                 return RedirectToAction("Index");
             }
 
             if (!ModelState.IsValid)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Cập nhật sản phẩm thất bại";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Cập nhật sản phẩm thất bại";
                 return RedirectToAction("Index");
             }
 
             if (decimal.Compare(p.Price ?? decimal.Zero, p.Discount ?? decimal.Zero) < 0)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Giá khuyến mãi phải nhỏ hơn giá gốc";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Giá khuyến mãi phải nhỏ hơn giá gốc";
                 return RedirectToAction("Edit", new { id = p.ProductId });
             }
 
-            if (img.ContentLength > 0)
+            if (img != null && img.ContentLength > 0)
             {
                 using (var memoryStream = new MemoryStream())
                 {
                     await img.InputStream.CopyToAsync(memoryStream);
                     var imageBytes = memoryStream.ToArray();
                     var base64String = Convert.ToBase64String(imageBytes);
-                    product.ProductImage = base64String;
+                    var mimeType = img.ContentType;
+                    product.ProductImage = $"data:{mimeType};base64,{base64String}";
                 }
             }
 
@@ -184,12 +178,12 @@ namespace BShop.Areas.Admin.Controllers
             var product = await DBContext.Instance.Products.FirstOrDefaultAsync(item => item.ProductId == id);
             if (product == null)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Sản phẩm không tồn tại";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Sản phẩm không tồn tại";
                 return RedirectToAction("Index");
             }
 
-            product.Status = Constant.INACTIVE;
+            product.Status = Constant.Inactive;
             product.UpdatedAt = DateTime.Now;
             await DBContext.Instance.SaveChangesAsync();
             return RedirectToAction("Index");

@@ -37,8 +37,8 @@
                                 <label class="form-label">Mô tả</label>
                                 @Html.TextAreaFor(item => item.product.Description, new
                                 {
-                                    @class = "form-control", 
-                                    placeholder = "Nhập mô tả của bạn vào đây..", 
+                                    @class = "form-control",
+                                    placeholder = "Nhập mô tả của bạn vào đây..",
                                     rows = "10",
                                     id = "editor"
                                 })
@@ -48,25 +48,27 @@
                         <div class="col-xl-6">
                             <div class="mb-3">
                                 <label class="form-label">Giá</label>
-                                @Html.TextBoxFor(item => item.product.Price, "{0:N0}", new
+                                @Html.TextBoxFor(item => item.product.Price, new
                                 {
                                     @class = "form-control",
                                     @placeholder = "Nhập giá",
                                     type = "number",
                                     min = "0",
-                                    max = "9999999999"
+                                    max = "9999999999",
+                                    step = "1"
                                 })
                                 <span class="font-13 text-muted">e.g 123.000.000</span>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Giá khi giảm</label>
-                                @Html.TextBoxFor(item => item.product.Discount, "{0:N0}", new
+                                @Html.TextBoxFor(item => item.product.Discount, new
                                 {
                                     @class = "form-control",
                                     @placeholder = "Nhập giá khi giảm",
                                     type = "number",
                                     min = "0",
-                                    max = "9999999999"
+                                    max = "9999999999",
+                                    step = "1"
                                 })
                                 <span class="font-13 text-muted">e.g 123.000.000</span>
                             </div>
@@ -75,7 +77,7 @@
                         <div class="col-xl-6">
                             <div class="mb-3">
                                 <label class="form-label">Ảnh</label>
-                                <input type="file" class="form-control" name="img" placeholder="Chọn ảnh" id="file-upload"/>
+                                <input type="file" class="form-control" name="img" placeholder="Chọn ảnh" accept="image/*" id="file-upload"/>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Loại sản phẩm</label>
@@ -119,13 +121,13 @@
 </script>
 
 @section js {
-    @if (TempData[Constant.STATUS_RS] != null)
+    @if (TempData[Constant.StatusRs] != null)
     {
         <script>
-            showToast('@Html.Raw(TempData[Constant.MESSAGE_RS])', '@TempData[Constant.STATUS_RS]');
+            showToast('@Html.Raw(TempData[Constant.MessageRs])', '@TempData[Constant.StatusRs]');
         </script>
     }
     <script src="~/Scripts/admin/product.update.js"></script>
     <script src="~/Scripts/admin/CKEditor.js"></script>
-    
+
 }

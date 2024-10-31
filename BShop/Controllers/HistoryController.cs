@@ -8,7 +8,7 @@ using BShop.Utils;
 
 namespace BShop.Controllers
 {
-    [CustomAuthorize(Constant.ROLE_USER)]
+    [CustomAuthorize(Constant.RoleUser)]
     public class HistoryController : Controller
     {
         // GET
@@ -22,9 +22,9 @@ namespace BShop.Controllers
                 .Where(item => item.UserId == userId)
                 .ToListAsync();
             
-            var pendingOrder = listOrder.Where(item => item.Status == Constant.ORDER_STATUS_PENDING).ToList();
-            var doneOrder = listOrder.Where(item => item.Status == Constant.ORDER_STATUS_DELIVERED).ToList();
-            var cancelOrder = listOrder.Where(item => item.Status == Constant.ORDER_STATUS_CANCEL).ToList();
+            var pendingOrder = listOrder.Where(item => item.Status == Constant.OrderStatusPending).ToList();
+            var doneOrder = listOrder.Where(item => item.Status == Constant.OrderStatusDelivered).ToList();
+            var cancelOrder = listOrder.Where(item => item.Status == Constant.OrderStatusCancel).ToList();
             var model = new ProfileViewModel()
             {
                 information = new Information()

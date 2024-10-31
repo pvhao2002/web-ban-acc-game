@@ -250,10 +250,10 @@
 @Html.Partial("Client")
 
 @section js {
-    @if (TempData[Constant.STATUS_RS] != null)
+    @if (TempData[Constant.StatusRs] != null)
     {
         <script>
-            showAlert('@Html.Raw(TempData[Constant.MESSAGE_RS])', '@TempData[Constant.STATUS_RS]');
+            showAlert('@Html.Raw(TempData[Constant.MessageRs])', '@TempData[Constant.StatusRs]');
         </script>
     }
     <script src="~/Scripts/client/product.js"> </script>

@@ -3,11 +3,11 @@
 @using BShop.Utils
 
 @{
-    var openLogin = ViewData[Constant.LOGIN] != null;
-    var userIdStr = Convert.ToString(Session[Constant.USER_ID]);
+    var openLogin = ViewData[Constant.Login] != null;
+    var userIdStr = Convert.ToString(Session[Constant.UserId]);
     if (string.IsNullOrEmpty(userIdStr))
     {
-        userIdStr = Request.Cookies[Constant.USER_ID]?.Value;
+        userIdStr = Request.Cookies[Constant.UserId]?.Value;
     }
 
     var userId = Convert.ToInt32(userIdStr);
@@ -85,7 +85,7 @@
                     </div>
                     <!-- End Heading -->
 
-                    <form class="js-validate needs-validation" novalidate action="/Login" method="post">
+                    <form class="js-validate-login needs-validation" novalidate action="/Login" method="post">
                         <!-- Form -->
                         <div class="mb-3">
                             <label class="form-label" for="signupModalFormLoginEmail">Email</label>
@@ -104,7 +104,7 @@
                      }'>Quên mật khẩu?</a>
                             </div>
 
-                            <input type="password" class="form-control form-control-lg" name="password" 
+                            <input type="password" class="form-control form-control-lg" name="password"
                                    id="signupModalFormLoginPassword" placeholder="8+ ký tự bắt buộc"
                                    aria-label="8+ characters required" required minlength="8">
                             <span class="invalid-feedback">Mật khẩu không không đủ 8 ký tự.</span>
@@ -133,7 +133,7 @@
                     </div>
                     <!-- End Heading -->
 
-                    <form class="js-validate need-validate" novalidate action="/Register" method="post">
+                    <form class="js-validate-register need-validate" novalidate action="/Register" method="post">
                         <!-- Form -->
                         <div class="mb-3">
                             <label class="form-label" for="signupModalFormSignupEmail">Email</label>
@@ -151,7 +151,7 @@
                         <!-- Form -->
                         <div class="mb-3">
                             <label class="form-label" for="signupModalFormSignupPassword">Mật khẩu</label>
-                            <input type="password" class="form-control form-control-lg" name="password" 
+                            <input type="password" class="form-control form-control-lg" name="password"
                                    id="signupModalFormSignupPassword" placeholder="8+ characters required" aria-label="8+ ký tự bắt buộc" required>
                             <span class="invalid-feedback">Mật khẩu không đủ 8 ký tự.</span>
                         </div>
@@ -179,7 +179,7 @@
                     </div>
                     <!-- En dHeading -->
 
-                    <form class="js-validate need-validate" novalidate action="/ForgetPassword" method="post">
+                    <form class="js-validate-forget need-validate" novalidate action="/ForgetPassword" method="post">
                         <div class="mb-3">
                             <!-- Form -->
                             <div class="d-flex justify-content-between align-items-center">
@@ -240,36 +240,15 @@
 <!-- JS Front -->
 <script src="~/Scripts/client/theme.min.js"></script>
 
-<script>
-    const toast = document.querySelector('#liveToast');
-    const liveToast = new bootstrap.Toast(toast);
-    const message = document.getElementById('alertMessage');
-    function showAlert(msg, type) {
-        message.textContent = msg;
-        if (type === 'success') {
-            toast.classList.remove('bg-danger');
-            toast.classList.remove('bg-warning');
-            
-            toast.classList.add('bg-success');
-        } else if (type === 'warning') {
-            toast.classList.remove('bg-danger');
-            toast.classList.remove('bg-success');
-            
-            toast.classList.add('bg-warning');
-        } else {
-            toast.classList.remove('bg-success');
-            toast.classList.remove('bg-warning');
-            
-            toast.classList.add('bg-danger');
-        }
-        liveToast.show();
-    }
-</script>
+<script src="~/Scripts/client/toast.js"></script>
 
 @RenderSection("js", required: false)
 
 <!-- JS Plugins Init. -->
 <script src="~/Scripts/client/main.js"></script>
+<script src="~/Scripts/client/login.js"></script>
+<script src="~/Scripts/client/forget-password.js"></script>
+<script src="~/Scripts/client/register.js"></script>
 
 @if (openLogin)
 {

@@ -10,11 +10,11 @@ namespace BShop
     {
         public void OnAuthentication(AuthenticationContext filterContext)
         {
-            var email = Convert.ToString(filterContext.HttpContext.Session[Constant.EMAIL]);
+            var email = Convert.ToString(filterContext.HttpContext.Session[Constant.Email]);
             if (string.IsNullOrEmpty(email))
             {
                 // get email from cookie
-                email = filterContext.HttpContext.Request.Cookies[Constant.EMAIL]?.Value;
+                email = filterContext.HttpContext.Request.Cookies[Constant.Email]?.Value;
             }
             if (string.IsNullOrEmpty(email))
             {

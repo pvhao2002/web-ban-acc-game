@@ -15,8 +15,8 @@ namespace BShop.Utils
         {
             try
             {
-                var from = "";
-                var password = "";
+                var from = "hideonbush8405@gmail.com";
+                var password = "xvqe phsm spay yjov";
                 
                 var message = new MailMessage(from, to, subject, body)
                 {
@@ -35,7 +35,7 @@ namespace BShop.Utils
                     await client.SendMailAsync(message);
                 }
 
-                return Constant.SUCCESS;
+                return Constant.Success;
             }
             catch (SmtpFailedRecipientException)
             {

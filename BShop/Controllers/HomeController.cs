@@ -16,7 +16,7 @@ namespace BShop.Controllers
         {
             var listTrendProduct = await DBContext.Instance.Products
                 .Include(item => item.Category)
-                .Where(item => Constant.ACTIVE.Equals(item.Status) && Constant.ACTIVE.Equals(item.Category.Status))
+                .Where(item => Constant.Active.Equals(item.Status) && Constant.Active.Equals(item.Category.Status))
                 .OrderByDescending(item => item.ProductId)
                 .Take(8)
                 .ToListAsync();
@@ -24,7 +24,7 @@ namespace BShop.Controllers
             {
                 ListProduct = listTrendProduct
             };
-            ViewData[Constant.LOGIN] = act;
+            ViewData[Constant.Login] = act;
             return View(model);
         }
 

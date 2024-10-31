@@ -35,17 +35,16 @@ namespace BShop.Models.Entity
         [Column("total_price", TypeName = "decimal")]
         public decimal? TotalPrice { get; set; }
 
+        [Column("total_quantity", TypeName = "decimal")]
         public int? TotalQuantity { get; set; }
 
-        [Column("address")] [StringLength(50)] public string Status { get; set; }
+        [Column("status")] [StringLength(50)] public string Status { get; set; }
 
         [Column("payment_method")]
         [StringLength(100)]
         public string PaymentMethod { get; set; }
 
-        [Column("payment_status")]
-        [StringLength(500)]
-        public string TxRef { get; set; }
+        [Column("tx_ref")] [StringLength(500)] public string TxRef { get; set; }
 
         [Column("created_at", TypeName = "datetime")]
         public DateTime? CreatedAt { get; set; }

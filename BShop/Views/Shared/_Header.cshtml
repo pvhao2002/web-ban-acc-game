@@ -5,8 +5,11 @@
     var path = listPath.FirstOrDefault();
     var path1 = string.IsNullOrEmpty(path) ? "Home" : path;
     var listCssActiveNav = new Dictionary<string, string>();
-    var listTemp = new List<string>() { "Home", "Shop", "About", "More", "IntroduceMinecraft", 
-        "ReasonBuyGameOfficial", "Fanpage", "Cart", "History", "Profile" };
+    var listTemp = new List<string>()
+    {
+        "Home", "Shop", "More", "Sercurity",
+        "Return", "Policy", "Cart", "History", "Profile"
+    };
     listTemp.ForEach(item => listCssActiveNav.Add(item, ""));
     switch (path1)
     {
@@ -16,23 +19,20 @@
         case "Shop":
             listCssActiveNav["Shop"] = "active";
             break;
-        case "About":
-            listCssActiveNav["About"] = "active";
-            break;
         default:
             listCssActiveNav["More"] = "active";
             break;
     }
 
     listCssActiveNav[path1] = "active";
-    var userId = Session[Constant.USER_ID] ?? HttpContext.Current.Request.Cookies[Constant.USER_ID]?.Value;
+    var userId = Session[Constant.UserId]?.ToString() ?? HttpContext.Current.Request.Cookies[Constant.UserId]?.Value;
 
-    if ("1".Equals(userId))  // neu la admin thi chuyen huong ve trang admin
+    if ("1".Equals(userId)) // neu la admin thi chuyen huong ve trang admin
     {
         Response.Redirect("/Admin");
     }
-    
-    var isLogin = userId != null;
+
+    var isLogin = !string.IsNullOrEmpty(userId);
 }
 
 <header id="header" class="navbar navbar-expand-lg navbar-end navbar-light">
@@ -65,10 +65,6 @@
                     </li>
                     <!-- End Dropdown -->
 
-                    <li class="nav-item">
-                        <a class="nav-link @listCssActiveNav["About"]" href="/Home/About">Về chúng tôi</a>
-                    </li>
-
                     <li class="hs-has-mega-menu nav-item" data-hs-mega-menu-item-options='{
                       "desktop": {
                         "position": "right",
@@ -82,9 +78,9 @@
                             <div class="navbar-dropdown-menu-inner">
                                 <div class="row">
                                     <div class="col-sm mb-3 mb-sm-0">
-                                        <a class="dropdown-item @listCssActiveNav["IntroduceMinecraft"]" href="/Home/Sercurity">Chính sách bảo mật</a>
-                                        <a class="dropdown-item @listCssActiveNav["ReasonBuyGameOfficial"]" href="/Home/Return">Chính sác đổi trả</a>
-                                        <a class="dropdown-item @listCssActiveNav["Fanpage"]" href="/Home/Policy">Quy định sử dụng </a>
+                                        <a class="dropdown-item @listCssActiveNav["Sercurity"]" href="/Home/Sercurity">Chính sách bảo mật</a>
+                                        <a class="dropdown-item @listCssActiveNav["Return"]" href="/Home/Return">Chính sác đổi trả</a>
+                                        <a class="dropdown-item @listCssActiveNav["Policy"]" href="/Home/Policy">Quy định sử dụng </a>
                                     </div>
                                     <!-- End Col -->
 
@@ -102,13 +98,13 @@
                             <div class="navbar-dropdown-menu-shop-banner">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <img class="navbar-dropdown-menu-shop-banner-img" src="~/Assets/img/client/minecraft-la-gi6.jpg" alt="Image Description">
+                                        <img class="navbar-dropdown-menu-shop-banner-img" src="~/Assets/img/client/img_3banner_1.webp" alt="Image Description">
                                     </div>
 
                                     <div class="flex-grow-1 ps-1">
                                         <span class="h4 d-block text-primary">@path</span>
                                         <p style="font-size: 12px;">Minecraft là tựa game đa nền tảng thuộc thể loại Sandbox.</p>
-                                        <a class="btn btn-sm btn-soft-primary btn-transition" href="/Home/IntroduceMinecraft">Xem thêm <i class="bi-chevron-right small"></i></a>
+                                        <a class="btn btn-sm btn-soft-primary btn-transition" href="/Home">Xem thêm <i class="bi-chevron-right small"></i></a>
                                     </div>
                                 </div>
                             </div>

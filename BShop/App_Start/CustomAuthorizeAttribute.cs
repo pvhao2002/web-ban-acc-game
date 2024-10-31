@@ -20,7 +20,7 @@ namespace BShop
         {
             var userId = AuthenticationUtil.GetUserId(httpContext.Request, httpContext.Session);
             var userRole = DBContext.Instance.Users
-                .FirstOrDefault(u => u.UserId == userId && Constant.ACTIVE.Equals(u.Status));
+                .FirstOrDefault(u => u.UserId == userId && Constant.Active.Equals(u.Status));
             if (userRole == null) return false;
             var lowerUserRole = userRole.Role.ToLower();
             return _allowedroles.Any(role => role.ToLower().Equals(lowerUserRole));

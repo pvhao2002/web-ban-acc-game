@@ -74,7 +74,7 @@
                         <div class="col-xl-6">
                             <div class="mb-3">
                                 <label class="form-label">Ảnh</label>
-                                <input type="file" class="form-control" name="img" placeholder="Chọn ảnh" id="file-upload"/>
+                                <input type="file" class="form-control" name="img" placeholder="Chọn ảnh" accept="image/*" id="file-upload"/>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Loại sản phẩm</label>
@@ -97,10 +97,10 @@
 }
 
 @section js {
-    @if (TempData[Constant.STATUS_RS] != null)
+    @if (TempData[Constant.StatusRs] != null)
     {
         <script>
-            showToast('@Html.Raw(TempData[Constant.MESSAGE_RS])', '@TempData[Constant.STATUS_RS]');
+            showToast('@Html.Raw(TempData[Constant.MessageRs])', '@TempData[Constant.StatusRs]');
         </script>
     }
     <script src="~/Scripts/admin/product.add.js"></script>

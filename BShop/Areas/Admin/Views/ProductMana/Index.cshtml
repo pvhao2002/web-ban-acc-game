@@ -52,12 +52,12 @@
                                     </td>
 
                                     <td>
-                                        <img src=@Url.Content(value.ProductImage) alt="B shop" 
+                                        <img src="@value.ProductImage" alt="B shop" 
                                              style="width: 100px; height: 100px; object-fit: cover;"/>
                                     </td>
                                     <td>
                                         @{
-                                            var css = Constant.ACTIVE.Equals(value.Status) ? "success" : Constant.BLOCK.Equals(value.Status) ? "danger" : "warning";
+                                            var css = Constant.Active.Equals(value.Status) ? "success" : Constant.Block.Equals(value.Status) ? "danger" : "warning";
                                         }
                                         <span class="badge badge-@css-lighten">@value.Status</span>
                                     </td>
@@ -84,10 +84,10 @@
 
 
 @section js {
-    @if (TempData[Constant.STATUS_RS] != null)
+    @if (TempData[Constant.StatusRs] != null)
     {
         <script>
-            showToast('@Html.Raw(TempData[Constant.MESSAGE_RS])', '@TempData[Constant.STATUS_RS]');
+            showToast('@Html.Raw(TempData[Constant.MessageRs])', '@TempData[Constant.StatusRs]');
         </script>
     }
     <script src="~/Scripts/admin/product.index.js"></script>

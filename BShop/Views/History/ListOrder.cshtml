@@ -4,9 +4,9 @@
 @{
     var mapStatus = new Dictionary<string, string>
     {
-        { Constant.ORDER_STATUS_PENDING, "Đang chờ xác nhận" },
-        { Constant.ORDER_STATUS_CANCEL, "Đơn hàng bị hủy" },
-        { Constant.ORDER_STATUS_DELIVERED, "Đơn hàng hoàn thành" }
+        { Constant.OrderStatusPending, "Đang chờ xác nhận" },
+        { Constant.OrderStatusCancel, "Đơn hàng bị hủy" },
+        { Constant.OrderStatusDelivered, "Đơn hàng hoàn thành" }
     };
 }
 
@@ -66,7 +66,7 @@
                         </div>
                         <!-- End Row -->
                     </div>
-                    @if (item.Status.Equals(Constant.ORDER_STATUS_PENDING))
+                    @if (item.Status.Equals(Constant.OrderStatusPending))
                     {
                         <div class="col-md-4">
                             <div class="d-grid gap-4 align-items-end h-100">

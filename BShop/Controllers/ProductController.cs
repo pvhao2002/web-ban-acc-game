@@ -17,12 +17,12 @@ namespace BShop.Controllers
         {
             var listCategory = await DBContext.Instance.Categories
                 .Include(item => item.Products)
-                .Where(item => Constant.ACTIVE.Equals(item.Status))
+                .Where(item => Constant.Active.Equals(item.Status))
                 .ToListAsync();
 
             var products = await DBContext.Instance.Products
                 .Include(item => item.Category)
-                .Where(item => Constant.ACTIVE.Equals(item.Status) && Constant.ACTIVE.Equals(item.Category.Status))
+                .Where(item => Constant.Active.Equals(item.Status) && Constant.Active.Equals(item.Category.Status))
                 .ToListAsync();
             var cateId = cate ?? 0;
             var minPrice = min ?? 0;
@@ -82,7 +82,7 @@ namespace BShop.Controllers
                     categoryName = item.CategoryName,
                     totalProduct = item.CategoryId == 0
                         ? totalProduct
-                        : item.Products.Count(c => Constant.ACTIVE.Equals(c.Status))
+                        : item.Products.Count(c => Constant.Active.Equals(c.Status))
                 }).ToList(),
                 listProduct = products,
                 currentCategory = cateId,
@@ -220,8 +220,8 @@ namespace BShop.Controllers
             var product = await DBContext.Instance.Products
                 .Include(item => item.Category)
                 .FirstOrDefaultAsync(item => item.ProductId == id
-                                             && Constant.ACTIVE.Equals(item.Status)
-                                             && Constant.ACTIVE.Equals(item.Category.Status));
+                                             && Constant.Active.Equals(item.Status)
+                                             && Constant.Active.Equals(item.Category.Status));
             if (product == null)
             {
                 return RedirectToAction("Index");
@@ -231,8 +231,8 @@ namespace BShop.Controllers
                 .Include(item => item.Category)
                 .Where(item => item.CategoryId == product.CategoryId
                                && item.ProductId != product.ProductId
-                               && Constant.ACTIVE.Equals(item.Status)
-                               && Constant.ACTIVE.Equals(item.Category.Status))
+                               && Constant.Active.Equals(item.Status)
+                               && Constant.Active.Equals(item.Category.Status))
                 .Take(4)
                 .ToListAsync();
 

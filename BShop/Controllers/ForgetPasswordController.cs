@@ -20,7 +20,7 @@ namespace BShop.Controllers
                 return Json(failed);
             }
 
-            if (Constant.BLOCK.Equals(user.Status))
+            if (Constant.Block.Equals(user.Status))
             {
                 var failed = new { success = false, message = "Tài khoản đã bị khóa!" };
                 return Json(failed);
@@ -32,18 +32,18 @@ namespace BShop.Controllers
             const string subject = "Quên mật khẩu";
             var success = await MailUtils.SendEmail(email, subject, body);
 
-            if (Constant.SUCCESS.Equals(success))
+            if (Constant.Success.Equals(success))
             {
                 user.Password = newPassword;
                 user.UpdatedAt = DateTime.Now;
                 await DBContext.Instance.SaveChangesAsync();
             }
             
-            var mess = Constant.SUCCESS.Equals(success)  ? "Mật khẩu mới đã được gửi vào email của bạn!" : success;
+            var mess = Constant.Success.Equals(success)  ? "Mật khẩu mới đã được gửi vào email của bạn!" : success;
 
             var result = new
             {
-                success = Constant.SUCCESS.Equals(success),
+                success = Constant.Success.Equals(success),
                 message = mess,
                 page = "Forget"
             };

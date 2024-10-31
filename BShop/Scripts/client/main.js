@@ -6,55 +6,6 @@
         }
     });
     HSBsDropdown.init();
-
-    HSBsValidation.init('.js-validate', {
-        onSubmit: data => {
-            data.event.preventDefault();
-            data.event.stopPropagation();
-
-            const formData = new FormData(data.form);
-            const action = data.form.getAttribute('action');
-            const method = data.form.getAttribute('method');
-
-            fetch(action, {
-                method: method,
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data1 => {
-                    if (data1.success) {
-                        toast.classList.remove('bg-danger');
-                        toast.classList.add('bg-success');
-                    }else {
-                        toast.classList.remove('bg-success');
-                        toast.classList.add('bg-danger');
-                    }
-                    message.textContent = data1.message;
-                    liveToast.show();
-                    if (data1?.page  === 'Register') {
-                        document.getElementById('signupModalFormSignup').style.display = 'none';
-                        document.getElementById('signupModalFormLogin').style.display = 'block';
-                        document.getElementById('signupModalFormLogin').style.opacity = 1;
-                    } else if (data1?.page === 'Login') {
-                        if (data1?.role  === 'admin') {
-                            window.location.href = '/Admin';
-                        } else {
-                            window.location.href = '/';
-                        }
-                    } else if (data1.page === 'Forget') {
-                        document.getElementById('signupModalFormResetPassword').style.display = 'none';
-                        document.getElementById('signupModalFormLogin').style.display = 'block';
-                        document.getElementById('signupModalFormLogin').style.opacity = 1;
-                    }
-                })
-                .catch(error => {
-                    message.textContent = error;
-                    toast.classList.remove('bg-success');
-                    toast.classList.add('bg-danger');
-                    liveToast.show();
-                });
-        }
-    });
     // INITIALIZATION OF GO TO
     // =======================================================
     new HSGoTo('.js-go-to');

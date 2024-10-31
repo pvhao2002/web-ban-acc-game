@@ -9,7 +9,7 @@ using BShop.Utils;
 
 namespace BShop.Controllers
 {
-    [CustomAuthorize(Constant.ROLE_USER)]
+    [CustomAuthorize(Constant.RoleUser)]
     public class ThankController : Controller
     {
         // GET
@@ -17,8 +17,8 @@ namespace BShop.Controllers
         {
             if (!"00".Equals(vnp_TransactionStatus) || !"00".Equals(vnp_ResponseCode))
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Thanh toán thất bại!";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Thanh toán thất bại!";
                 return RedirectToAction("Index", "History");
             }
 
@@ -31,31 +31,31 @@ namespace BShop.Controllers
 
             if (order == null)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Đơn hàng không tồn tại!";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Đơn hàng không tồn tại!";
                 return RedirectToAction("Index", "History");
             }
             var body = MailUtils.BuildBody(order);
             var message = await MailUtils.SendEmail(order.Email, "Tài khoản B Shop", body);
 
-            if (Constant.SUCCESS.Equals(message))
+            if (Constant.Success.Equals(message))
             {
-                order.Status = Constant.ORDER_STATUS_DELIVERED;
+                order.Status = Constant.OrderStatusDelivered;
                 order.UpdatedAt = DateTime.Now;
 
                 order.OrderItems.ForEach(item =>
                 {
-                    item.product.Status = Constant.INACTIVE;
+                    item.product.Status = Constant.Inactive;
                     item.product.UpdatedAt = DateTime.Now;
                 });
 
                 await DBContext.Instance.SaveChangesAsync();
             }
 
-            var status = Constant.SUCCESS.Equals(message) ? Constant.SUCCESS : Constant.ERROR;
-            var msg = Constant.SUCCESS.Equals(message) ? "Tài khoản đã được gửi vào email của bạn!" : message;
-            TempData[Constant.STATUS_RS] = status;
-            TempData[Constant.MESSAGE_RS] = msg;
+            var status = Constant.Success.Equals(message) ? Constant.Success : Constant.Error;
+            var msg = Constant.Success.Equals(message) ? "Tài khoản đã được gửi vào email của bạn!" : message;
+            TempData[Constant.StatusRs] = status;
+            TempData[Constant.MessageRs] = msg;
             return RedirectToAction("Index", "History");
         }
     }

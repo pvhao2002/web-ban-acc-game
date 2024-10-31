@@ -8,7 +8,7 @@ using BShop.Utils;
 
 namespace BShop.Controllers
 {
-    [CustomAuthorize(Constant.ROLE_USER)]
+    [CustomAuthorize(Constant.RoleUser)]
     public class CartController : Controller
     {
         public async Task<ActionResult> Index()
@@ -27,13 +27,13 @@ namespace BShop.Controllers
             var p = await DBContext.Instance.Products
                 .Include(item => item.Category)
                 .FirstOrDefaultAsync(item => item.ProductId == id
-                                             && Constant.ACTIVE.Equals(item.Status)
-                                             && Constant.ACTIVE.Equals(item.Category.Status));
+                                             && Constant.Active.Equals(item.Status)
+                                             && Constant.Active.Equals(item.Category.Status));
 
-            if (p == null || Constant.PRODUCT_PENDING.Equals(p.Status))
+            if (p == null || Constant.ProductPending.Equals(p.Status))
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Sản phẩm không tồn tại!";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Sản phẩm không tồn tại!";
                 return RedirectToAction("Index", "Product");
             }
 
@@ -90,8 +90,8 @@ namespace BShop.Controllers
                 else
                 {
                     success = false;
-                    TempData[Constant.STATUS_RS] = Constant.ERROR;
-                    TempData[Constant.MESSAGE_RS] = "Sản phẩm đã tồn tại trong giỏ hàng!";
+                    TempData[Constant.StatusRs] = Constant.Error;
+                    TempData[Constant.MessageRs] = "Sản phẩm đã tồn tại trong giỏ hàng!";
                 }
 
                 // check if you have product have status pending then remove it
@@ -101,8 +101,8 @@ namespace BShop.Controllers
             await DBContext.Instance.SaveChangesAsync();
             if (!success) return RedirectToAction("Index", "Product");
 
-            TempData[Constant.STATUS_RS] = Constant.SUCCESS;
-            TempData[Constant.MESSAGE_RS] = "Thêm sản phẩm vào giỏ hàng thành công!";
+            TempData[Constant.StatusRs] = Constant.Success;
+            TempData[Constant.MessageRs] = "Thêm sản phẩm vào giỏ hàng thành công!";
             return RedirectToAction("Index", "Product");
         }
 
@@ -116,7 +116,7 @@ namespace BShop.Controllers
             {
                 var product = await DBContext.Instance.Products
                     .FirstOrDefaultAsync(pItem => pItem.ProductId == item.ProductId);
-                if (product != null && !Constant.PRODUCT_PENDING.Equals(product.Status)) continue;
+                if (product != null && !Constant.ProductPending.Equals(product.Status)) continue;
                 c.TotalPrice -= item.TotalPrice;
                 c.TotalQuantity -= item.Quantity;
                 DBContext.Instance.CartItems.Remove(item);
@@ -133,8 +133,8 @@ namespace BShop.Controllers
 
             if (cart == null)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Giỏ hàng không tồn tại!";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Giỏ hàng không tồn tại!";
                 return RedirectToAction("Index", "Product");
             }
 
@@ -144,12 +144,12 @@ namespace BShop.Controllers
 
             if (cartItem == null)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Sản phẩm không tồn tại trong giỏ hàng!";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Sản phẩm không tồn tại trong giỏ hàng!";
                 return RedirectToAction("Index", "Cart");
             }
 
-            if (Constant.PRODUCT_PENDING.Equals(cartItem.Product.Status))
+            if (Constant.ProductPending.Equals(cartItem.Product.Status))
             {
                 // remove product pending from cart
                 cart.TotalPrice -= cartItem.TotalPrice;
@@ -160,8 +160,8 @@ namespace BShop.Controllers
             {
                 if (cartItem.Quantity + quantity <= 0)
                 {
-                    TempData[Constant.STATUS_RS] = Constant.ERROR;
-                    TempData[Constant.MESSAGE_RS] = "Số lượng sản phẩm phải lớn hơn 0!";
+                    TempData[Constant.StatusRs] = Constant.Error;
+                    TempData[Constant.MessageRs] = "Số lượng sản phẩm phải lớn hơn 0!";
                     return RedirectToAction("Index", "Cart");
                 }
 
@@ -187,8 +187,8 @@ namespace BShop.Controllers
 
             if (cart == null)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Giỏ hàng không tồn tại!";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Giỏ hàng không tồn tại!";
                 return RedirectToAction("Index", "Product");
             }
 
@@ -197,8 +197,8 @@ namespace BShop.Controllers
 
             if (cartItem == null)
             {
-                TempData[Constant.STATUS_RS] = Constant.ERROR;
-                TempData[Constant.MESSAGE_RS] = "Sản phẩm không tồn tại trong giỏ hàng!";
+                TempData[Constant.StatusRs] = Constant.Error;
+                TempData[Constant.MessageRs] = "Sản phẩm không tồn tại trong giỏ hàng!";
                 return RedirectToAction("Index", "Cart");
             }
 
@@ -207,8 +207,8 @@ namespace BShop.Controllers
             DBContext.Instance.CartItems.Remove(cartItem);
             cart.UpdatedAt = DateTime.Now;
             await DBContext.Instance.SaveChangesAsync();
-            TempData[Constant.STATUS_RS] = Constant.SUCCESS;
-            TempData[Constant.MESSAGE_RS] = "Xóa sản phẩm khỏi giỏ hàng thành công!";
+            TempData[Constant.StatusRs] = Constant.Success;
+            TempData[Constant.MessageRs] = "Xóa sản phẩm khỏi giỏ hàng thành công!";
             return RedirectToAction("Index", "Cart");
         }
     }
