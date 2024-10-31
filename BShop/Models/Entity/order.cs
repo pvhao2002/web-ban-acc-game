@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace ProjectWeb.Models.Entity
+namespace BShop.Models.Entity
 {
-    [Table("order")]
+    [Table("orders")]
     public sealed class Order
     {
         [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

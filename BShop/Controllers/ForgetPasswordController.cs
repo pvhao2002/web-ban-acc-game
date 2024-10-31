@@ -2,20 +2,17 @@
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Utils;
 
-namespace ProjectWeb.Controllers
+namespace BShop.Controllers
 {
     public class ForgetPasswordController : Controller
     {
-        private DBContext ctx { get; } = DbConnect.instance;
-
-        // GET
         [HttpPost]
         public async Task<JsonResult> Index(string email)
         {
-            var user = await ctx.Users.FirstOrDefaultAsync(item => email.Equals(item.Email));
+            var user = await DBContext.Instance.Users.FirstOrDefaultAsync(item => email.Equals(item.Email));
 
             if (user == null)
             {
@@ -39,7 +36,7 @@ namespace ProjectWeb.Controllers
             {
                 user.Password = newPassword;
                 user.UpdatedAt = DateTime.Now;
-                await ctx.SaveChangesAsync();
+                await DBContext.Instance.SaveChangesAsync();
             }
             
             var mess = Constant.SUCCESS.Equals(success)  ? "Mật khẩu mới đã được gửi vào email của bạn!" : success;

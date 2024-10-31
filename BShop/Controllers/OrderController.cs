@@ -2,21 +2,17 @@
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Utils;
 
-namespace ProjectWeb.Controllers
+namespace BShop.Controllers
 {
-    [CustomAuthenticationFilter]
     [CustomAuthorize(Constant.ROLE_USER)]
     public class OrderController : Controller
     {
-        private DBContext ctx { get; } = DbConnect.instance;
-
-        // GET
         public async Task<ActionResult> Cancel(int id)
         {
-            var order = await ctx.Orders.FirstOrDefaultAsync(item => item.OrderId == id);
+            var order = await DBContext.Instance.Orders.FirstOrDefaultAsync(item => item.OrderId == id);
             if (order == null)
             {
                 TempData[Constant.STATUS_RS] = Constant.ERROR;
@@ -33,7 +29,7 @@ namespace ProjectWeb.Controllers
 
             order.Status = Constant.ORDER_STATUS_CANCEL;
             order.UpdatedAt = DateTime.Now;
-            await ctx.SaveChangesAsync();
+            await DBContext.Instance.SaveChangesAsync();
             return RedirectToAction("Index", "History");
         }
     }

@@ -3,22 +3,18 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Utils;
 
-namespace ProjectWeb.Controllers
+namespace BShop.Controllers
 {
-    [CustomAuthenticationFilter]
     [CustomAuthorize(Constant.ROLE_USER)]
     public class CartController : Controller
     {
-        private DBContext ctx { get; } = DbConnect.instance;
-
-        // GET
         public async Task<ActionResult> Index()
         {
             var userId = AuthenticationUtil.GetUserId(Request, Session);
-            var cart = await ctx.Carts
+            var cart = await DBContext.Instance.Carts
                 .Include(item => item.CartItems)
                 .Include(item => item.CartItems.Select(cItem => cItem.Product))
                 .FirstOrDefaultAsync(item => item.UserId == userId);
@@ -28,7 +24,7 @@ namespace ProjectWeb.Controllers
         public async Task<ActionResult> Add(int id)
         {
             var success = true;
-            var p = await ctx.Products
+            var p = await DBContext.Instance.Products
                 .Include(item => item.Category)
                 .FirstOrDefaultAsync(item => item.ProductId == id
                                              && Constant.ACTIVE.Equals(item.Status)
@@ -42,7 +38,7 @@ namespace ProjectWeb.Controllers
             }
 
             var userId = AuthenticationUtil.GetUserId(Request, Session);
-            var cart = await ctx.Carts
+            var cart = await DBContext.Instance.Carts
                 .FirstOrDefaultAsync(item => item.UserId == userId);
             if (cart == null)
             {
@@ -65,12 +61,12 @@ namespace ProjectWeb.Controllers
                     Product = p
                 };
                 cart.CartItems.Add(cartItem);
-                ctx.Carts.Add(cart);
+                DBContext.Instance.Carts.Add(cart);
             }
             else
             {
                 // check if product already in cart then skip
-                var cartItem = await ctx.CartItems
+                var cartItem = await DBContext.Instance.CartItems
                     .FirstOrDefaultAsync(item => item.CartId == cart.CartId
                                                  && item.ProductId == p.ProductId);
                 if (cartItem == null)
@@ -102,7 +98,7 @@ namespace ProjectWeb.Controllers
                 await RemoveProductPending(cart);
             }
 
-            await ctx.SaveChangesAsync();
+            await DBContext.Instance.SaveChangesAsync();
             if (!success) return RedirectToAction("Index", "Product");
 
             TempData[Constant.STATUS_RS] = Constant.SUCCESS;
@@ -112,26 +108,26 @@ namespace ProjectWeb.Controllers
 
         private async Task RemoveProductPending(Cart c)
         {
-            var cartItems = await ctx.CartItems
+            var cartItems = await DBContext.Instance.CartItems
                 .Where(item => item.CartId == c.CartId)
                 .ToListAsync();
 
             foreach (var item in cartItems)
             {
-                var product = await ctx.Products
+                var product = await DBContext.Instance.Products
                     .FirstOrDefaultAsync(pItem => pItem.ProductId == item.ProductId);
                 if (product != null && !Constant.PRODUCT_PENDING.Equals(product.Status)) continue;
                 c.TotalPrice -= item.TotalPrice;
                 c.TotalQuantity -= item.Quantity;
-                ctx.CartItems.Remove(item);
+                DBContext.Instance.CartItems.Remove(item);
             }
 
-            await ctx.SaveChangesAsync();
+            await DBContext.Instance.SaveChangesAsync();
         }
 
         public async Task<ActionResult> Update(int cid, int pid, int quantity)
         {
-            var cart = await ctx.Carts
+            var cart = await DBContext.Instance.Carts
                 .Include(item => item.CartItems)
                 .FirstOrDefaultAsync(item => item.CartId == cid);
 
@@ -142,7 +138,7 @@ namespace ProjectWeb.Controllers
                 return RedirectToAction("Index", "Product");
             }
 
-            var cartItem = await ctx.CartItems
+            var cartItem = await DBContext.Instance.CartItems
                 .Include(item => item.Product)
                 .FirstOrDefaultAsync(item => item.CartId == cid && item.ProductId == pid);
 
@@ -158,7 +154,7 @@ namespace ProjectWeb.Controllers
                 // remove product pending from cart
                 cart.TotalPrice -= cartItem.TotalPrice;
                 cart.TotalQuantity -= cartItem.Quantity;
-                ctx.CartItems.Remove(cartItem);
+                DBContext.Instance.CartItems.Remove(cartItem);
             }
             else
             {
@@ -178,14 +174,14 @@ namespace ProjectWeb.Controllers
             }
 
             cart.UpdatedAt = DateTime.Now;
-            await ctx.SaveChangesAsync();
+            await DBContext.Instance.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
 
         public async Task<ActionResult> Remove(int cid, int pid)
         {
-            var cart = await ctx.Carts
+            var cart = await DBContext.Instance.Carts
                 .Include(item => item.CartItems)
                 .FirstOrDefaultAsync(item => item.CartId == cid);
 
@@ -196,7 +192,7 @@ namespace ProjectWeb.Controllers
                 return RedirectToAction("Index", "Product");
             }
 
-            var cartItem = await ctx.CartItems
+            var cartItem = await DBContext.Instance.CartItems
                 .FirstOrDefaultAsync(item => item.CartId == cid && item.ProductId == pid);
 
             if (cartItem == null)
@@ -208,9 +204,9 @@ namespace ProjectWeb.Controllers
 
             cart.TotalPrice -= cartItem.TotalPrice;
             cart.TotalQuantity -= cartItem.Quantity;
-            ctx.CartItems.Remove(cartItem);
+            DBContext.Instance.CartItems.Remove(cartItem);
             cart.UpdatedAt = DateTime.Now;
-            await ctx.SaveChangesAsync();
+            await DBContext.Instance.SaveChangesAsync();
             TempData[Constant.STATUS_RS] = Constant.SUCCESS;
             TempData[Constant.MESSAGE_RS] = "Xóa sản phẩm khỏi giỏ hàng thành công!";
             return RedirectToAction("Index", "Cart");

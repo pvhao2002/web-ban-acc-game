@@ -4,26 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Models.ViewModel;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Models.ViewModel;
+using BShop.Utils;
 
-namespace ProjectWeb.Controllers
+namespace BShop.Controllers
 {
     public class ProductController : Controller
     {
-        private DBContext ctx { get; } = DbConnect.instance;
-
-        // GET
         public async Task<ActionResult> Index(int? page, int? cate, decimal? min,
             decimal? max, string search, string sort = "ASC")
         {
-            var listCategory = await ctx.Categories
+            var listCategory = await DBContext.Instance.Categories
                 .Include(item => item.Products)
                 .Where(item => Constant.ACTIVE.Equals(item.Status))
                 .ToListAsync();
 
-            var products = await ctx.Products
+            var products = await DBContext.Instance.Products
                 .Include(item => item.Category)
                 .Where(item => Constant.ACTIVE.Equals(item.Status) && Constant.ACTIVE.Equals(item.Category.Status))
                 .ToListAsync();
@@ -220,7 +217,7 @@ namespace ProjectWeb.Controllers
 
         public async Task<ActionResult> Detail(int id)
         {
-            var product = await ctx.Products
+            var product = await DBContext.Instance.Products
                 .Include(item => item.Category)
                 .FirstOrDefaultAsync(item => item.ProductId == id
                                              && Constant.ACTIVE.Equals(item.Status)
@@ -230,7 +227,7 @@ namespace ProjectWeb.Controllers
                 return RedirectToAction("Index");
             }
             
-            var relatedProducts = await ctx.Products
+            var relatedProducts = await DBContext.Instance.Products
                 .Include(item => item.Category)
                 .Where(item => item.CategoryId == product.CategoryId
                                && item.ProductId != product.ProductId

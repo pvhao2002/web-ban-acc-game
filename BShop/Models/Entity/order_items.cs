@@ -1,8 +1,10 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ProjectWeb.Models.Entity
+namespace BShop.Models.Entity
 {
+    [Table("order_items")]
     public class order_items
     {
         [Key]

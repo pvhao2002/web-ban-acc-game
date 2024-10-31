@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 
-namespace ProjectWeb.Utils
+namespace BShop.Utils
 {
     public static class AuthenticationUtil
     {

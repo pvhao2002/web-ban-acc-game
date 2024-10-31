@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using ProjectWeb.Models.Entity;
+using BShop.Models.Entity;
 
-namespace ProjectWeb.Models.ViewModel
+namespace BShop.Models.ViewModel
 {
     public class ProductViewModel
     {

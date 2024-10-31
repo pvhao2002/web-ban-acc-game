@@ -2,15 +2,14 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Utils;
 
-namespace ProjectWeb
+namespace BShop
 {
     public class CustomAuthorizeAttribute : AuthorizeAttribute
     {
         private readonly string[] _allowedroles;
-        private DBContext ctx { get; } = DbConnect.instance;
 
         public CustomAuthorizeAttribute(params string[] roles)
         {
@@ -20,7 +19,7 @@ namespace ProjectWeb
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var userId = AuthenticationUtil.GetUserId(httpContext.Request, httpContext.Session);
-            var userRole = ctx.Users
+            var userRole = DBContext.Instance.Users
                 .FirstOrDefault(u => u.UserId == userId && Constant.ACTIVE.Equals(u.Status));
             if (userRole == null) return false;
             var lowerUserRole = userRole.Role.ToLower();

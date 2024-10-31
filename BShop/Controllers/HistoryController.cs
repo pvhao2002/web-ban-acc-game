@@ -2,24 +2,21 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Models.ViewModel;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Models.ViewModel;
+using BShop.Utils;
 
-namespace ProjectWeb.Controllers
+namespace BShop.Controllers
 {
-    [CustomAuthenticationFilter]
     [CustomAuthorize(Constant.ROLE_USER)]
     public class HistoryController : Controller
     {
-        private DBContext ctx { get; } = DbConnect.instance;
-
         // GET
         public async Task<ActionResult> Index()
         {
             var userId = AuthenticationUtil.GetUserId(Request, Session);
-            var user = await ctx.Users.FirstOrDefaultAsync(item => item.UserId == userId);
-            var listOrder = await ctx.Orders
+            var user = await DBContext.Instance.Users.FirstOrDefaultAsync(item => item.UserId == userId);
+            var listOrder = await DBContext.Instance.Orders
                 .Include(item => item.OrderItems)
                 .Include(item => item.OrderItems.Select(orderItem => orderItem.product))
                 .Where(item => item.UserId == userId)

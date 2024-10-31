@@ -1,6 +1,6 @@
 using System.Data.Entity;
 
-namespace ProjectWeb.Models.Entity
+namespace BShop.Models.Entity
 {
     public class DBContext : DbContext
     {

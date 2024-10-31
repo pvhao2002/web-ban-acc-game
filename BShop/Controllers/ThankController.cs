@@ -4,17 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Utils;
 
-namespace ProjectWeb.Controllers
+namespace BShop.Controllers
 {
-    [CustomAuthenticationFilter]
     [CustomAuthorize(Constant.ROLE_USER)]
     public class ThankController : Controller
     {
-        private DBContext ctx { get; } = DbConnect.instance;
-
         // GET
         public async Task<ActionResult> Index(string vnp_ResponseCode, string vnp_TransactionStatus, string vnp_TxnRef)
         {
@@ -26,7 +23,7 @@ namespace ProjectWeb.Controllers
             }
 
             var userId = AuthenticationUtil.GetUserId(Request, Session);
-            var order = await ctx.Orders
+            var order = await DBContext.Instance.Orders
                 .Include(item => item.OrderItems)
                 .Include(item => item.OrderItems.Select(oItem => oItem.product))
                 .FirstOrDefaultAsync(item =>
@@ -52,7 +49,7 @@ namespace ProjectWeb.Controllers
                     item.product.UpdatedAt = DateTime.Now;
                 });
 
-                await ctx.SaveChangesAsync();
+                await DBContext.Instance.SaveChangesAsync();
             }
 
             var status = Constant.SUCCESS.Equals(message) ? Constant.SUCCESS : Constant.ERROR;

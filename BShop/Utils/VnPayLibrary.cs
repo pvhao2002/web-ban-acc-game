@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace ProjectWeb.Utils
+namespace BShop.Utils
 {
     public class VnPayLibrary
     {

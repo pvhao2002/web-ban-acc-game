@@ -2,15 +2,13 @@
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Utils;
 
-namespace ProjectWeb.Controllers
+namespace BShop.Controllers
 {
     public class RegisterController : Controller
     {
-        private DBContext ctx { get; } = DbConnect.instance;
-
         [HttpPost]
         public async Task<JsonResult> Index(string email, string password, string fullname)
         {
@@ -21,7 +19,7 @@ namespace ProjectWeb.Controllers
             }
             var emailLower = email.ToLower();
 
-            var user = await ctx.Users.FirstOrDefaultAsync(item => emailLower.Equals(item.Email.ToLower()));
+            var user = await DBContext.Instance.Users.FirstOrDefaultAsync(item => emailLower.Equals(item.Email.ToLower()));
             
             if (user != null)
             {
@@ -39,8 +37,8 @@ namespace ProjectWeb.Controllers
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             };
-            ctx.Users.Add(newUser);
-            await ctx.SaveChangesAsync();
+            DBContext.Instance.Users.Add(newUser);
+            await DBContext.Instance.SaveChangesAsync();
 
             var result = new { success = true, message = "Đăng ký thành công!", page = "Register" };
             return Json(result);

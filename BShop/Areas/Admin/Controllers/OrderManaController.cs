@@ -4,23 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Utils;
 
-namespace ProjectWeb.Areas.Admin.Controllers
+namespace BShop.Areas.Admin.Controllers
 {
-    [CustomAuthenticationFilter]
     [CustomAuthorize(Constant.ROLE_ADMIN)]
     public class OrderManaController : Controller
     {
-        private DBContext ctx { get; } = DbConnect.instance;
-
         public const string ACCEPT = "accept";
 
         // GET
         public async Task<ActionResult> Index(string status)
         {
-            var orders = await ctx.Orders
+            var orders = await DBContext.Instance.Orders
                 .Include(item => item.OrderItems)
                 .Include(item => item.OrderItems.Select(oItem => oItem.product))
                 .Where(item => status == null || item.Status.Equals(status))
@@ -41,7 +38,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
 
         private async Task<ActionResult> Process(int id, string status)
         {
-            var order = await ctx.Orders
+            var order = await DBContext.Instance.Orders
                 .Include(item => item.OrderItems)
                 .Include(item => item.OrderItems.Select(oItem => oItem.product))
                 .FirstOrDefaultAsync(item => item.OrderId == id);
@@ -54,7 +51,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
             }
 
             var body = ACCEPT.Equals(status) ? MailUtils.BuildBody(order) : MailUtils.BuildBodyFail(order);
-            var message = await MailUtils.SendEmail(order.Email, "Thông báo đơn hàng HP Shop", body);
+            var message = await MailUtils.SendEmail(order.Email, "Thông báo đơn hàng B Shop", body);
 
             if (Constant.SUCCESS.Equals(message))
             {
@@ -81,7 +78,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
                         Constant.SUCCESS.Equals(message) ? "Đã hủy đơn hàng!" : message;
                 }
 
-                await ctx.SaveChangesAsync();
+                await DBContext.Instance.SaveChangesAsync();
             }
             else
             {

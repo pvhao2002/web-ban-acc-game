@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace ProjectWeb.Areas.Admin
+namespace BShop.Areas.Admin
 {
     public class AdminAreaRegistration : AreaRegistration 
     {

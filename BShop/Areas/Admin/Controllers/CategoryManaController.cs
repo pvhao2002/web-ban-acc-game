@@ -3,21 +3,19 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Utils;
 
-namespace ProjectWeb.Areas.Admin.Controllers
+namespace BShop.Areas.Admin.Controllers
 {
-    [CustomAuthenticationFilter]
     [CustomAuthorize(Constant.ROLE_ADMIN)]
     public class CategoryManaController : Controller
     {
-        private DBContext ctx { get; } = DbConnect.instance;
-
-        // GET
         public async Task<ActionResult> Index()
         {
-            var listCategory = await ctx.Categories.Where(item => Constant.ACTIVE.Equals(item.Status)).ToListAsync();
+            var listCategory = await DBContext.Instance.Categories
+                .Where(item => Constant.ACTIVE.Equals(item.Status))
+                .ToListAsync();
             return View(listCategory);
         }
 
@@ -28,7 +26,8 @@ namespace ProjectWeb.Areas.Admin.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            var category = await ctx.Categories.FirstOrDefaultAsync(item => item.CategoryId == id);
+            var category = await DBContext.Instance.Categories
+                .FirstOrDefaultAsync(item => item.CategoryId == id);
             return View(category);
         }
 
@@ -45,8 +44,8 @@ namespace ProjectWeb.Areas.Admin.Controllers
             cate.CreatedAt = DateTime.Now;
             cate.UpdatedAt = DateTime.Now;
             cate.Status = Constant.ACTIVE;
-            ctx.Categories.Add(cate);
-            await ctx.SaveChangesAsync();
+            DBContext.Instance.Categories.Add(cate);
+            await DBContext.Instance.SaveChangesAsync();
 
             TempData[Constant.STATUS_RS] = Constant.SUCCESS;
             TempData[Constant.MESSAGE_RS] = "Thêm danh mục thành công";
@@ -56,7 +55,8 @@ namespace ProjectWeb.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> DoUpdate(Category cate)
         {
-            var category = await ctx.Categories.FirstOrDefaultAsync(item => item.CategoryId == cate.CategoryId);
+            var category = await DBContext.Instance.Categories
+                .FirstOrDefaultAsync(item => item.CategoryId == cate.CategoryId);
             if (category == null)
             {
                 TempData[Constant.STATUS_RS] = Constant.ERROR;
@@ -65,9 +65,8 @@ namespace ProjectWeb.Areas.Admin.Controllers
             }
 
             category.CategoryName = cate.CategoryName;
-            category.Description = cate.Description;
             category.UpdatedAt = DateTime.Now;
-            await ctx.SaveChangesAsync();
+            await DBContext.Instance.SaveChangesAsync();
             TempData[Constant.STATUS_RS] = Constant.SUCCESS;
             TempData[Constant.MESSAGE_RS] = "Cập nhật danh mục thành công";
             return RedirectToAction("Index");
@@ -76,7 +75,8 @@ namespace ProjectWeb.Areas.Admin.Controllers
 
         public async Task<ActionResult> Del(int id)
         {
-            var category = await ctx.Categories.FirstOrDefaultAsync(item => item.CategoryId == id);
+            var category = await DBContext.Instance.Categories
+                .FirstOrDefaultAsync(item => item.CategoryId == id);
             if(category == null)
             {
                 TempData[Constant.STATUS_RS] = Constant.ERROR;
@@ -85,7 +85,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
             }
             category.Status = Constant.INACTIVE;
             category.UpdatedAt = DateTime.Now;
-            await ctx.SaveChangesAsync();
+            await DBContext.Instance.SaveChangesAsync();
             TempData[Constant.STATUS_RS] = Constant.SUCCESS;
             TempData[Constant.MESSAGE_RS] = "Xóa danh mục thành công";
             

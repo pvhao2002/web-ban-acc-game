@@ -5,9 +5,9 @@ using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.Ajax.Utilities;
-using ProjectWeb.Models.Entity;
+using BShop.Models.Entity;
 
-namespace ProjectWeb.Utils
+namespace BShop.Utils
 {
     public static class MailUtils
     {

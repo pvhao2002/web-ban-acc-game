@@ -3,23 +3,21 @@ using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Utils;
 
-namespace ProjectWeb.Controllers
+namespace BShop.Controllers
 {
     public class LoginController : Controller
     {
-        private DBContext ctx { get; } = DbConnect.instance;
-
         private const int MaxAge = 30; // 30 days
 
         // GET: Login
         [HttpPost]
         public async Task<JsonResult> Index(string email, string password)
         {
-            var user = await ctx.Users.FirstOrDefaultAsync(item =>
-                email.Equals(item.Email) && password.Equals(item.Password));
+            var user = await DBContext.Instance.Users
+                .FirstOrDefaultAsync(item => email.Equals(item.Email) && password.Equals(item.Password));
 
             if (user == null)
             {

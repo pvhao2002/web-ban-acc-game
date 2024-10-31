@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace ProjectWeb.Models.Entity
+namespace BShop.Models.Entity
 {
+    [Table("categories")]
     public sealed class Category
     {
         [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,10 +23,6 @@ namespace ProjectWeb.Models.Entity
         [StringLength(255)]
         [Column("category_name")]
         public string CategoryName { get; set; }
-
-        [StringLength(int.MaxValue)]
-        [Column("description")]
-        public string Description { get; set; }
 
         [StringLength(50)]
         [Column("status")]

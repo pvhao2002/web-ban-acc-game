@@ -1,8 +1,8 @@
-﻿using ProjectWeb.Models.Entity;
+﻿using BShop.Models.Entity;
 using System;
 using System.Collections.Generic;
 
-namespace ProjectWeb.Models.ViewModel
+namespace BShop.Models.ViewModel
 {
     public class HomeViewModel
     {

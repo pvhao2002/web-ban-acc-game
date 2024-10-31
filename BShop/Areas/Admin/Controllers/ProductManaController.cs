@@ -5,22 +5,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Models.ViewModel;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Models.ViewModel;
+using BShop.Utils;
 
-namespace ProjectWeb.Areas.Admin.Controllers
+namespace BShop.Areas.Admin.Controllers
 {
-    [CustomAuthenticationFilter]
     [CustomAuthorize(Constant.ROLE_ADMIN)]
     public class ProductManaController : Controller
     {
-        private DBContext ctx { get; } = DbConnect.instance;
-
         // GET
         public async Task<ActionResult>  Index()
         {
-            var list = await ctx.Products
+            var list = await DBContext.Instance.Products
                 .Include(item => item.Category)
                 .Where(item => Constant.ACTIVE.Equals(item.Category.Status) && Constant.ACTIVE.Equals(item.Status))
                 .ToListAsync();
@@ -29,7 +26,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
 
         public async Task<ActionResult> SaleAccount()
         {
-            var list = await ctx.Products
+            var list = await DBContext.Instance.Products
                 .Include(item => item.Category)
                 .Where(item => Constant.INACTIVE.Equals(item.Status))
                 .ToListAsync();
@@ -38,7 +35,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
 
         public async Task<ActionResult> Add()
         {
-            var listCategory = await ctx.Categories.Where(item => Constant.ACTIVE.Equals(item.Status)).ToListAsync();
+            var listCategory = await DBContext.Instance.Categories.Where(item => Constant.ACTIVE.Equals(item.Status)).ToListAsync();
             var categorySelectList = listCategory.Select(item => new SelectListItem()
             {
                 Text = item.CategoryName,
@@ -55,8 +52,8 @@ namespace ProjectWeb.Areas.Admin.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            var product = await ctx.Products.FirstOrDefaultAsync(item => item.ProductId == id);
-            var listCategory = await ctx.Categories.Where(item => Constant.ACTIVE.Equals(item.Status)).ToListAsync();
+            var product = await DBContext.Instance.Products.FirstOrDefaultAsync(item => item.ProductId == id);
+            var listCategory = await DBContext.Instance.Categories.Where(item => Constant.ACTIVE.Equals(item.Status)).ToListAsync();
             var categorySelectList = listCategory.Select(item => new SelectListItem()
             {
                 Text = item.CategoryName,
@@ -101,12 +98,12 @@ namespace ProjectWeb.Areas.Admin.Controllers
             product.UpdatedAt = DateTime.Now;
             product.Status = Constant.ACTIVE;
 
-            ctx.Products.Add(product);
-            using (var trans = ctx.Database.BeginTransaction())
+            DBContext.Instance.Products.Add(product);
+            using (var trans = DBContext.Instance.Database.BeginTransaction())
             {
                 try
                 {
-                    await ctx.SaveChangesAsync();
+                    await DBContext.Instance.SaveChangesAsync();
                     trans.Commit();
                     TempData[Constant.STATUS_RS] = Constant.SUCCESS;
                     TempData[Constant.MESSAGE_RS] = "Thêm sản phẩm thành công";
@@ -126,7 +123,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
         public async Task<ActionResult> DoUpdate(ProductViewModel productViewModel, HttpPostedFileBase img)
         {
             var p = productViewModel.product;
-            var product = await ctx.Products.FirstOrDefaultAsync(item => item.ProductId == p.ProductId);
+            var product = await DBContext.Instance.Products.FirstOrDefaultAsync(item => item.ProductId == p.ProductId);
 
             if (product == null)
             {
@@ -164,7 +161,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
             product.CategoryId = p.CategoryId;
             product.UpdatedAt = DateTime.Now;
 
-            await ctx.SaveChangesAsync();
+            await DBContext.Instance.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }
@@ -172,7 +169,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
 
         public async Task<ActionResult> Delete(int id)
         {
-            var product = await ctx.Products.FirstOrDefaultAsync(item => item.ProductId == id);
+            var product = await DBContext.Instance.Products.FirstOrDefaultAsync(item => item.ProductId == id);
             if (product == null)
             {
                 TempData[Constant.STATUS_RS] = Constant.ERROR;
@@ -182,7 +179,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
             
             product.Status = Constant.INACTIVE;
             product.UpdatedAt = DateTime.Now;
-            await ctx.SaveChangesAsync();
+            await DBContext.Instance.SaveChangesAsync();
             return RedirectToAction("Index");
         }
     }

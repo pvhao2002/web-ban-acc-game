@@ -1,5 +1,5 @@
-﻿@using ProjectWeb.Utils
-@model IEnumerable<ProjectWeb.Models.Entity.Category>
+﻿@using BShop.Utils
+@model IEnumerable<BShop.Models.Entity.Category>
 
 @{
     ViewBag.Title = "Quản lý loại sản phẩm";
@@ -40,7 +40,6 @@
                         <tr>
                             <th style="width: 100px;">STT</th>
                             <th>Loại sản phẩm</th>
-                            <th>Mô tả</th>
                             <th>Ngày cập nhật cuối cùng</th>
                             <th style="width: 75px;">#</th>
                         </tr>
@@ -54,9 +53,6 @@
                                 </td>
                                 <td class="table-user">
                                     <a href="javascript:void(0);" class="text-body fw-semibold">@value.CategoryName</a>
-                                </td>
-                                <td >
-                                    @value.Description
                                 </td>
                                 <td>
                                     @(value.UpdatedAt?.ToLongDateString())

@@ -1,5 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-namespace ProjectWeb.Utils
+﻿namespace BShop.Utils
 {
     public static class Constant
     {

@@ -1,5 +1,5 @@
-﻿@using ProjectWeb.Utils
-@model ProjectWeb.Models.Entity.Category
+﻿@using BShop.Utils
+@model BShop.Models.Entity.Category
 
 @{
     ViewBag.Title = "Chỉnh sửa loại sản phẩm";
@@ -22,10 +22,6 @@
                             <div class="mb-3">
                                 <label class="form-label">Tên</label>
                                 @Html.TextBoxFor(item => item.CategoryName, new { @class = "form-control", @placeholder = "Nhập tên loại" })
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Mô tả</label>
-                                @Html.TextAreaFor(item => item.Description, new { @class = "form-control", @placeholder = "Nhập mô tả của bạn vào đây..", rows = "5" })
                             </div>
                         </div> <!-- end col-->
                     </div>

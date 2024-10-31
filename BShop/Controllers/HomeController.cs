@@ -1,22 +1,20 @@
 ﻿using System;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Models.ViewModel;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Models.ViewModel;
+using BShop.Utils;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace ProjectWeb.Controllers
+namespace BShop.Controllers
 {
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        private DBContext Ctx { get; } = DBContext.Instance;
-
         public async Task<ActionResult> Index(string act)
         {
-            var listTrendProduct = await Ctx.Products
+            var listTrendProduct = await DBContext.Instance.Products
                 .Include(item => item.Category)
                 .Where(item => Constant.ACTIVE.Equals(item.Status) && Constant.ACTIVE.Equals(item.Category.Status))
                 .OrderByDescending(item => item.ProductId)
@@ -40,19 +38,9 @@ namespace ProjectWeb.Controllers
             return PartialView();
         }
 
-        public ActionResult IntroduceMinecraft()
-        {
-            return View();
-        }
-
         public PartialViewResult Client()
         {
             return PartialView();
-        }
-
-        public ActionResult ReasonBuyGameOfficial()
-        {
-            return View();
         }
 
         public ActionResult Fanpage()
@@ -60,10 +48,9 @@ namespace ProjectWeb.Controllers
             return View();
         }
 
-        public async Task<ActionResult> About()
+        public ActionResult About()
         {
-            var about = await Ctx.abouts.FirstOrDefaultAsync();
-            return View(about ?? new about());
+            return View();
         }
 
         public ActionResult UnAuthorized()

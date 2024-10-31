@@ -2,22 +2,18 @@
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Utils;
 
-namespace ProjectWeb.Controllers
+namespace BShop.Controllers
 {
-    [CustomAuthenticationFilter]
     [CustomAuthorize(Constant.ROLE_USER)]
     public class CheckoutController : Controller
     {
-        private DBContext ctx { get; } = DbConnect.instance;
-
-        // GET
         public async Task<ActionResult> Index()
         {
             var userId = AuthenticationUtil.GetUserId(Request, Session);
-            var cart = await ctx.Carts
+            var cart = await DBContext.Instance.Carts
                 .Include(item => item.CartItems)
                 .FirstOrDefaultAsync(item => item.UserId == userId);
             if (cart != null && cart.CartItems.Count != 0) return View(cart);
@@ -31,7 +27,7 @@ namespace ProjectWeb.Controllers
         {
             var userId = AuthenticationUtil.GetUserId(Request, Session);
             var taxRef = $"{DateTime.Now.Ticks}{userId}";
-            var cart = await ctx.Carts
+            var cart = await DBContext.Instance.Carts
                 .Include(item => item.CartItems)
                 .FirstOrDefaultAsync(item => item.UserId == userId);
             if (cart == null || cart.CartItems.Count == 0)
@@ -65,9 +61,9 @@ namespace ProjectWeb.Controllers
                 order.OrderItems.Add(orderDetail);
             }
 
-            var o = ctx.Orders.Add(order);
-            ctx.Carts.Remove(cart);
-            await ctx.SaveChangesAsync();
+            var o = DBContext.Instance.Orders.Add(order);
+            DBContext.Instance.Carts.Remove(cart);
+            await DBContext.Instance.SaveChangesAsync();
 
             if (!"VNPAY".Equals(paymentMethod))
                 return Json(new { success = true, message = "Thanh toán thành công", isVnpay = false, url = "" });

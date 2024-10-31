@@ -3,21 +3,18 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using ProjectWeb.Models.Entity;
-using ProjectWeb.Utils;
+using BShop.Models.Entity;
+using BShop.Utils;
 
-namespace ProjectWeb.Areas.Admin.Controllers
+namespace BShop.Areas.Admin.Controllers
 {
-    [CustomAuthenticationFilter]
     [CustomAuthorize(Constant.ROLE_ADMIN)]
     public class AccountManaController : Controller
     {
-        private DBContext ctx { get; } = DbConnect.instance;
-
         // GET
         public async Task<ActionResult> Index()
         {
-            var users = await ctx.Users
+            var users = await DBContext.Instance.Users
                 .Where(item => Constant.ROLE_USER.Equals(item.Role))
                 .ToListAsync();
             return View(users);
@@ -41,7 +38,8 @@ namespace ProjectWeb.Areas.Admin.Controllers
 
         private async Task<bool> UpdateStatus(int userId, string status)
         {
-            var user = await ctx.Users.FirstOrDefaultAsync(item => item.UserId == userId);
+            var user = await DBContext.Instance.Users
+                .FirstOrDefaultAsync(item => item.UserId == userId);
             if (user == null)
             {
                 return false;
@@ -49,7 +47,7 @@ namespace ProjectWeb.Areas.Admin.Controllers
 
             user.Status = status;
             user.UpdatedAt = DateTime.Now;
-            await ctx.SaveChangesAsync();
+            await DBContext.Instance.SaveChangesAsync();
             return true;
         }
     }

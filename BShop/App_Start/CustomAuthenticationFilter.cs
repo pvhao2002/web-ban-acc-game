@@ -1,10 +1,10 @@
-﻿using System;
+﻿using BShop.Utils;
+using System;
 using System.Web.Mvc;
 using System.Web.Mvc.Filters;
 using System.Web.Routing;
-using ProjectWeb.Utils;
 
-namespace ProjectWeb
+namespace BShop
 {
     public class CustomAuthenticationFilter : ActionFilterAttribute, IAuthenticationFilter
     {
