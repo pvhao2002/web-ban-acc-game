@@ -16,7 +16,7 @@ namespace BShop.Models.Entity
         public DbSet<CartItems> CartItems { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<order_items> OrderItems { get; set; }
+        public DbSet<OrderItems> OrderItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
@@ -35,8 +35,8 @@ namespace BShop.Models.Entity
                 .Property(e => e.Status)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<order_items>()
-                .Property(e => e.total_price)
+            modelBuilder.Entity<OrderItems>()
+                .Property(e => e.TotalPrice)
                 .HasPrecision(10, 2);
 
             modelBuilder.Entity<Order>()

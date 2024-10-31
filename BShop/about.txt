@@ -1,6 +1,6 @@
 ﻿<div class="container ">
     <header class="">
-        <h1 class="">Giới thiệu HP Shop</h1>
+        <h1 class="">Giới thiệu B Shop</h1>
         <p class="">
             Chuyên bán các sản phẩm về Game bản quyền, Phần mềm, Tiện ích
             uy tín hàng đầu Việt Nam.
@@ -40,7 +40,7 @@
             </li>
         </ol>
         <h2 id="van-phong-HP-shop" class="">
-            Văn phòng HP Shop
+            Văn phòng B Shop
         </h2>
     <div class="row container w-75">
         <div class="col-4 mb-1">
@@ -96,7 +96,7 @@
             1. Uy tín 9 năm hoạt động
         </h3>
         <p class=" page-api-block:ml-0">
-            HP Shop là một tên tuổi lâu đời
+            B Shop là một tên tuổi lâu đời
             trong tại thị trường Việt Nam, được khẳng định thông qua hơn 1 triệu khách hàng.
         </p>
         <div class="px-4 py-2 bg-soft-dark rounded-2 mb-2">
@@ -351,13 +351,13 @@
             những sản phẩm với giá cả tốt nhất cùng với đó là những ưu đãi vô cùng hấp dẫn.
         </p>
         <h2 id="cac-thong-tin-lien-he-voi-HP-shop" class="">
-            Các thông tin liên hệ với HP Shop
+            Các thông tin liên hệ với B Shop
         </h2>
         <p class=" page-api-block:ml-0">
             Email: hotro@HPshop.vn
             Tổng đài tự động: 1900 633 305
-            Kênh chat: <a class=" " href="javascript:void(0)">HP Shop</a>
-            Fanpage: <a class=" " href="javascript:void(0)">HP Shop - Game bản quyền</a>
+            Kênh chat: <a class=" " href="javascript:void(0)">B Shop</a>
+            Fanpage: <a class=" " href="javascript:void(0)">B Shop - Game bản quyền</a>
         </p>
     </div>
 </div>

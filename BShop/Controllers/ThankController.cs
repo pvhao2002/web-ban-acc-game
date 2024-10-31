@@ -36,7 +36,7 @@ namespace BShop.Controllers
                 return RedirectToAction("Index", "History");
             }
             var body = MailUtils.BuildBody(order);
-            var message = await MailUtils.SendEmail(order.Email, "Tài khoản HP Shop", body);
+            var message = await MailUtils.SendEmail(order.Email, "Tài khoản B Shop", body);
 
             if (Constant.SUCCESS.Equals(message))
             {

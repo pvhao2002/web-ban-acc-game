@@ -21,7 +21,7 @@ namespace BShop.Models.ViewModel
 
     public class CategoryRevenue
     {
-        public string category_name { get; set; }
+        public string CategoryName { get; set; }
         public decimal revenue { get; set; }
 
         public CategoryRevenue()

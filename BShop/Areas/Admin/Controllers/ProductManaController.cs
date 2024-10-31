@@ -15,7 +15,7 @@ namespace BShop.Areas.Admin.Controllers
     public class ProductManaController : Controller
     {
         // GET
-        public async Task<ActionResult>  Index()
+        public async Task<ActionResult> Index()
         {
             var list = await DBContext.Instance.Products
                 .Include(item => item.Category)
@@ -35,7 +35,9 @@ namespace BShop.Areas.Admin.Controllers
 
         public async Task<ActionResult> Add()
         {
-            var listCategory = await DBContext.Instance.Categories.Where(item => Constant.ACTIVE.Equals(item.Status)).ToListAsync();
+            var listCategory = await DBContext.Instance.Categories
+                .Where(item => Constant.ACTIVE.Equals(item.Status))
+                .ToListAsync();
             var categorySelectList = listCategory.Select(item => new SelectListItem()
             {
                 Text = item.CategoryName,
@@ -52,8 +54,11 @@ namespace BShop.Areas.Admin.Controllers
 
         public async Task<ActionResult> Edit(int id)
         {
-            var product = await DBContext.Instance.Products.FirstOrDefaultAsync(item => item.ProductId == id);
-            var listCategory = await DBContext.Instance.Categories.Where(item => Constant.ACTIVE.Equals(item.Status)).ToListAsync();
+            var product = await DBContext.Instance.Products
+                .FirstOrDefaultAsync(item => item.ProductId == id);
+            var listCategory = await DBContext.Instance.Categories
+                .Where(item => Constant.ACTIVE.Equals(item.Status))
+                .ToListAsync();
             var categorySelectList = listCategory.Select(item => new SelectListItem()
             {
                 Text = item.CategoryName,
@@ -89,11 +94,15 @@ namespace BShop.Areas.Admin.Controllers
 
             if (img.ContentLength > 0)
             {
-                var fileName = Path.GetFileName(img.FileName);
-                var path = Path.Combine(Server.MapPath(Constant.PATH_IMAGE), fileName);
-                img.SaveAs(path);
-                product.ProductImage = Constant.PATH_IMAGE + "/" + fileName;
+                using (var memoryStream = new MemoryStream())
+                {
+                    await img.InputStream.CopyToAsync(memoryStream);
+                    var imageBytes = memoryStream.ToArray();
+                    var base64String = Convert.ToBase64String(imageBytes);
+                    product.ProductImage = base64String;
+                }
             }
+
             product.CreatedAt = DateTime.Now;
             product.UpdatedAt = DateTime.Now;
             product.Status = Constant.ACTIVE;
@@ -148,10 +157,13 @@ namespace BShop.Areas.Admin.Controllers
 
             if (img.ContentLength > 0)
             {
-                var fileName = Path.GetFileName(img.FileName);
-                var path = Path.Combine(Server.MapPath(Constant.PATH_IMAGE), fileName);
-                img.SaveAs(path);
-                product.ProductImage = Constant.PATH_IMAGE + "/" + fileName;
+                using (var memoryStream = new MemoryStream())
+                {
+                    await img.InputStream.CopyToAsync(memoryStream);
+                    var imageBytes = memoryStream.ToArray();
+                    var base64String = Convert.ToBase64String(imageBytes);
+                    product.ProductImage = base64String;
+                }
             }
 
             product.ProductName = p.ProductName;
@@ -176,7 +188,7 @@ namespace BShop.Areas.Admin.Controllers
                 TempData[Constant.MESSAGE_RS] = "Sản phẩm không tồn tại";
                 return RedirectToAction("Index");
             }
-            
+
             product.Status = Constant.INACTIVE;
             product.UpdatedAt = DateTime.Now;
             await DBContext.Instance.SaveChangesAsync();

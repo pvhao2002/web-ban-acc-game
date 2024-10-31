@@ -35,7 +35,7 @@
 
                         <div class="col-lg-6 order-lg-1">
                             <div class="w-75 mx-auto">
-                                <img class="img-fluid" style="width: 400px; object-fit: fill;" src=@Url.Content(slide.slider_img) alt="Image Description">
+                                <img class="img-fluid" style="width: 400px; object-fit: fill;" src="" alt="Image Description">
                             </div>
                         </div>
                         <!-- End Col -->
@@ -55,16 +55,13 @@
     <div class="position-absolute bottom-0 start-0 end-0 mb-3">
         <div class="js-swiper-shop-hero-thumbs swiper" style="max-width: 13rem;">
             <div class="swiper-wrapper">
-                @foreach (var slide in Model)
-                {
-                    <!-- Slide -->
-                    <div class="swiper-slide">
-                        <a class="js-swiper-thumb-progress swiper-thumb-progress-avatar" href="javascript:;" tabindex="0">
-                            <img class="swiper-thumb-progress-avatar-img w-100" src=@Url.Content(slide.slider_img) alt="Image Description">
-                        </a>
-                    </div>
-                    <!-- End Slide -->
-                }
+                <!-- Slide -->
+                <div class="swiper-slide">
+                    <a class="js-swiper-thumb-progress swiper-thumb-progress-avatar" href="javascript:;" tabindex="0">
+                        <img class="swiper-thumb-progress-avatar-img w-100" src="" alt="Image Description">
+                    </a>
+                </div>
+                <!-- End Slide -->
             </div>
         </div>
     </div>

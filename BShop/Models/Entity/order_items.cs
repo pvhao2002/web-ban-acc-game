@@ -5,25 +5,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace BShop.Models.Entity
 {
     [Table("order_items")]
-    public class order_items
+    public sealed class OrderItems
     {
         [Key]
-        public int order_item_id { get; set; }
+        public int OrderItemId { get; set; }
 
-        public int? order_id { get; set; }
+        public int? OrderId { get; set; }
 
-        public int? product_id { get; set; }
+        public int? ProductId { get; set; }
 
         public int? quantity { get; set; }
 
-        public decimal? total_price { get; set; }
+        public decimal? TotalPrice { get; set; }
 
-        public DateTime? created_at { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
-        public DateTime? updated_at { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
-        public virtual Order order { get; set; }
+        public Order order { get; set; }
 
-        public virtual Product product { get; set; }
+        public Product product { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace BShop.Models.Entity
         [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Order()
         {
-            OrderItems = new HashSet<order_items>();
+            OrderItems = new HashSet<OrderItems>();
         }
 
         [Key]
@@ -54,7 +54,7 @@ namespace BShop.Models.Entity
         public DateTime? UpdatedAt { get; set; }
 
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public ICollection<order_items> OrderItems { get; set; }
+        public ICollection<OrderItems> OrderItems { get; set; }
 
         public User User { get; set; }
     }

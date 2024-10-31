@@ -20,7 +20,7 @@ fileUpload.addEventListener('change', function() {
                     <div class="p-2">
                         <div class="row align-items-center">
                             <div class="col-auto">
-                                <img src="${this.result}" class="avatar-sm rounded bg-light" alt="HP Shop">
+                                <img src="${this.result}" class="avatar-sm rounded bg-light" alt="B Shop">
                             </div>
                             <div class="col ps-0">
                                 <a href="javascript:void(0);" class="text-muted fw-bold">${file.name}</a>

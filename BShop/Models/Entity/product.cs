@@ -13,7 +13,7 @@ namespace BShop.Models.Entity
         public Product()
         {
             CartItems = new HashSet<CartItems>();
-            OrderItems = new HashSet<order_items>();
+            OrderItems = new HashSet<OrderItems>();
         }
 
         [Key]
@@ -56,6 +56,6 @@ namespace BShop.Models.Entity
         public Category Category { get; set; }
 
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public ICollection<order_items> OrderItems { get; set; }
+        public ICollection<OrderItems> OrderItems { get; set; }
     }
 }

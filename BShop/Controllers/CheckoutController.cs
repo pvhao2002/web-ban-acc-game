@@ -49,14 +49,14 @@ namespace BShop.Controllers
             };
             foreach (var item in cart.CartItems)
             {
-                var orderDetail = new order_items()
+                var orderDetail = new OrderItems()
                 {
                     order = order,
-                    product_id = item.ProductId,
+                    ProductId = item.ProductId,
                     quantity = item.Quantity,
-                    total_price = item.TotalPrice,
-                    created_at = DateTime.Now,
-                    updated_at = DateTime.Now
+                    TotalPrice = item.TotalPrice,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
                 };
                 order.OrderItems.Add(orderDetail);
             }

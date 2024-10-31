@@ -43,12 +43,17 @@ namespace BShop.Controllers
             return PartialView();
         }
 
-        public ActionResult Fanpage()
+        public ActionResult Policy()
         {
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Return()
+        {
+            return View();
+        }
+
+        public ActionResult Sercurity()
         {
             return View();
         }
